@@ -1,0 +1,4 @@
+To use:
+
+* Copy the dotvim-basic or dotvim-full-featured directory to ~/.vim
+* Symlink the vimrc and gvimrc files to ~/.vimrc and ~/.gvimrc

@@ -1,0 +1,175 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Basics - Editing a longer file</h1>
+
+<p>Let's take those ideas an apply them to a longer file, or to several files.</p>
+
+<p>Suppose we've just upgraded Passenger from 2.2.8 to 2.2.9 and need to configure it to use the new version.  Edit this file in an existing Vim session by typing the path to the file:</p>
+
+<pre><code>:e /etc/httpd/conf.d/passenger.conf
+</code></pre>
+
+<p>Search for the version number with <code>/2.2.8</code>. This puts the cursor at the start of the match.  Jump forward to the "8" with <code>f8</code> and replace it with 9 <code>r9</code>.  To find the next match, use the single letter <code>n</code> as often as needed.  To go back to the previous match, use capital <code>N</code>.</p>
+
+<p>We can make things easier for ourselves by highlighting the matches.  To highlight matches from the last search, do <code>:set hlsearch</code>.  And to highlight matches as you type a search pattern, do <code>:set incsearch</code>.</p>
+
+<p>But there's a higher level concept here; I want to do a search and replace (the mnemonic is "substitute"). This looks like a regular expression, and works like one:</p>
+
+<pre><code>:%s/2\.2\.8/2.2.9/
+</code></pre>
+
+<p>Where <code>:</code> signals the start of a command; <code>%s</code> means substitute across the whole file; and <code>/</code> delimits the match and the replacement.  You can append several flags to this command to fine-tune its behaviour; the two essential ones are:</p>
+
+<ul>
+<li><code>g</code> meaning global, or every match in the document, not just the first.</li>
+<li><code>c</code> meaning confirm, or Vim will ask you to before performing each replacement.</li>
+</ul>
+
+<p>You use them like this: </p>
+
+<pre><code>:%s/2\.2\.8/2.2.9/gc
+</code></pre>
+
+<p>Beware that in a regular expression, the period matches any character. For precision search and replace on a literal period, escape it like this:</p>
+
+<pre><code>:%s/2\.2\.8/2.2.9/
+</code></pre>
+
+<p>Instead of searching, you might find line numbers easier to work with.  To show line numbers, do <code>:set number</code>.  You can go to the twelfth line with <code>12G</code>.  You can use <code>gg</code> to go to the first line of the file and capital <code>G</code> for the last.</p>
+
+<p>Now let's return to our virtual host file and copy some configuration across from another host file.  Let's change Vim's working directory to our Apache configuration directory:</p>
+
+<pre><code>:cd /etc/httpd/conf/apps
+</code></pre>
+
+<p>You can check the current working directory with <code>:pwd</code>.</p>
+
+<p>Now it's easy to open up <code>example.conf</code> and <code>myotherapp.conf</code>:</p>
+
+<pre><code>:e example.conf
+:e myotherapp.conf
+</code></pre>
+
+<p>Or you can type <code>:e .</code> to view a directory listing that can be navigated with <code>hjkl</code> or any other technique you've learned so far. Hit <code>&lt;Enter&gt;</code> to edit the file under the cursor.</p>
+
+<p>I want to copy the asset expiration stanza from <code>myotherapp.conf</code> to <code>example.conf</code>.  There are many ways to select text.  The easiest way is with visual mode where Vim highlights the text as you select it.</p>
+
+<pre><code>/Expires&lt;ENTER&gt;  # search forward for Expires
+Vjjjy            # go into Visual mode, move down three lines, yank
+:bp              # change to previous buffer (i.e. example.conf)
+                 # In MacVim, :b &lt;TAB&gt; shows buffers and &lt;ARROW&gt; cycles
+G                # go to last line
+k                # Up one line (if needed)
+P                # paste above current line
+</code></pre>
+
+<p>This technique does a <em>linewise</em> copy so it doesn't matter where in the line the cursor is.  Capital <code>V</code> puts us into linewise visual mode, copying entire lines instead of sequences of characters.  To go into characterwise visual mode, use lowercase <code>v</code> instead.  </p>
+
+<p>As mentioned previously, <code>P</code> pastes text into a spot behind the cursor in characterwise mode, or onto the previous line in linewise mode.</p>
+
+<p>Text can be deleted in visual mode, too. Select the text and hit <code>d</code>.  The deleted text is written into the paste register (the same as cutting text to a clipboard).  To change text selected in visual mode, use <code>c</code> as before instead of <code>y</code> or <code>d</code>.</p>
+
+<p>If you want to save these changes to the new file, use <code>:w</code> or one of the tricks mentioned previously.</p>
+
+<h2>Recap</h2>
+
+<p>You now know how to fire up Vim in its useful state (<code>-N</code>), browse a directory, open files, and turn on syntax highlighting.</p>
+
+<p>You can navigate simply, search for text, and substitute with a regular expression.</p>
+
+<p>You can select arbitrary amounts of text, copy, delete or change it, and paste it elsewhere.</p>
+
+<p>You can save your changes or throw them away.</p>
+
+<p>One other command is worth knowing right from the beginning: <code>.</code> repeats your last change. Unfortunately, it doesn't repeat command-line changes prefixed with a colon, but it works for other edits. You'll find that you use it often.</p>
+
+<pre><code>Lower Third or Diagram: Commands are relative and repeatable. `c3w`
+</code></pre>
+
+<p>If your goal is only to edit the odd configuration file, you are fully equipped. But in the next few chapters, we'll charge into Vim and learn to configure and use it for development.</p>

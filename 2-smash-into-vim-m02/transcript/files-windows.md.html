@@ -1,0 +1,174 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Files - Windows and Buffers</h1>
+
+<p>Once you've opened a few files in a Vim session, how do you arrange them on the screen?  It goes like this:</p>
+
+<p>A <em>buffer</em> is a file that has been loaded into memory.  The term <em>window</em> refers to a viewport onto a buffer, not an application window as you may otherwise be familiar with.  </p>
+
+<p>You can have as many buffers -- and windows onto a buffer -- as you like, and you can tile them horizontally and vertically to your heart's content.  What's more, you can do all this on a tab by tab basis.</p>
+
+<p>Some people love tabs but I never use them.  For me, a good grasp of window commands and an efficient buffer explorer do the job better.</p>
+
+<p>I'll show you how to work with windows and tabs first, and then we'll look at buffer management.</p>
+
+<h3>Windows</h3>
+
+<p>You'll be pleased to hear all the window commands are easy to remember: they all start with <code>CTRL-W</code>, and end with an obvious letter that corresponds to the task.</p>
+
+<p>When you edit a file, it's loaded into a buffer and you have a single window onto that buffer.  Now I want to look at two different parts simultaneously, so split the window horizontally: <code>CTRL-W s</code>.  The two windows are independent and you can scroll them separately.</p>
+
+<p>To move to the bottom window, type <code>CTRL-W j</code>, and to move up type <code>CTRL-W k</code>.  Use capital <code>J</code> and <code>K</code> to move the windows themselves to the bottom (<code>CTRL-W J</code>) or top (<code>CTRL-W K</code>).</p>
+
+<p>Now we want to split the window vertically: <code>CTRL-W v</code>.  You've probably anticipated how to jump between vertical windows: <code>CTRL-W h</code> and <code>CTRL-W l</code>; and how to move the windows to the left hand side and right hand side: <code>CTRL-W H</code> and <code>CTRL-W L</code>.</p>
+
+<p>Actually the vertical split doesn't look so good, so close it again with <code>CTRL-W c</code>.</p>
+
+<p>There are a few more ways to move the cursor to other windows.  <code>CTRL-W w</code> cycles through them anticlockwise (<code>CTRL-W W</code> goes clockwise).  <code>CTRL-W t</code> and <code>CTRL-W b</code> move to the top-left and bottom-right windows respectively.  And <code>CTRL-W p</code> moves to the previous window.</p>
+
+<p>Similarly there are several ways to move the windows themselves.  <code>CTRL-W r</code> and <code>CTRL-W R</code> rotate them anticlockwise and clockwise respectively.  <code>CTRL-W x</code> exchanges the current window with the next one.  And <code>CTRL-W T</code> moves the current window to a new tab.</p>
+
+<p>It's so easy to open up windows all over the place that I often go a little overboard.  When this happens I use <code>CTRL-W o</code> to make the current window the only one.</p>
+
+<p>Many commands but all easy to remember!</p>
+
+<p>When you open or close windows, Vim resizes the others.  You can configure how Vim does this, as well as resizing windows as you go.  Look at the documentation for details.</p>
+
+<h3>Tabs</h3>
+
+<p>A tab holds one or more windows.  Most commands work on a per-tab basis.  Like the window commands, the tab commands are easy to remember and do what you would expect.  To keep this brief, here's a list.</p>
+
+<pre><code>:tabnew                " open a new tab
+:tabe[dit] {file}      " edit {file} in a new tab
+:tabc[lose]            " close the current tab
+:tabo[nly]             " close the other tabs
+:tabs                  " list the tabs and their windows
+:tabn[ext]             " go to the next tab
+:tabp[revious]         " go to the previous tab
+:tabfir[st]            " go to the first tab
+:tabl[ast]             " go to the last tab
+:tabm[ove] 3           " move the current tab to after tab 3, or the end if no number is given
+</code></pre>
+
+<p>Although easy to remember, they're a bit much to type.  So we've included some helpful mappings in the example <code>.vimrc</code> file.</p>
+
+<h3>Buffers</h3>
+
+<p>It's crucial to know how to navigate your buffers quickly.  Like finding files, Vim's own buffer navigation is passable -- but you'll want a specialist plugin on top.</p>
+
+<p>You can list all the buffers with <code>:ls</code>.  The first column shows each buffer's unique number, which won't change while Vim is open.  You can always go to, say, buffer number 3 with <code>:b3</code>.</p>
+
+<p>The second column shows the buffers' statuses with various flags.  <code>+</code> means a buffer with unsaved changes, while <code>=</code> means read-only.  <code>%</code> is the buffer in the current window.</p>
+
+<p>Go to the next and previous buffers with <code>:bn</code> and <code>:bp</code>, and close a buffer with <code>:bd</code> (buffer delete).  <code>:bf</code> goes to the first buffer, and <code>:bl</code> the last.  And you can open a window for every buffer with <code>:ba</code> (buffer all).</p>
+
+<p>One of the more useful commands is <code>CTRL-^</code> which edits the "alternate" file.  Generally this is the last file you edited -- so it's handy when you nip into another file, perhaps with <code>gf</code>, to check something; you can nip right back again with <code>CTRL-^</code>.  Some plugins, like <code>rails.vim</code>, set up useful alternate files so you can quickly jump to, for example, a model's test.</p>
+
+<p>The only buffer commands I use are <code>:ls</code> and <code>:bd</code>.  The rest of the time I use a plugin to work the buffers.</p>
+
+<p>There are various buffer management plugins, including <a href="http://www.vim.org/scripts/script.php?script_id=2050">LustyJuggler</a> -- which puts your most recently used files on the home keys -- and the <a href="http://www.vim.org/scripts/script.php?script_id=1984">FuzzyFinder</a> plugin mentioned above which matches buffer filenames.</p>
+
+<p>But my favourite is <a href="http://www.vim.org/scripts/script.php?script_id=42">bufexplorer</a>.  It's fast, unobtrusive, and useful.</p>
+
+<p>Once installed, hit <code>\be</code> to open the <code>bufexplorer</code> window.  You'll get a souped-up list of your buffers which you can navigate with the usual motion commands.  When the cursor is on the buffer you want to edit, hit <code>&lt;Enter&gt;</code> to open it.  The bufexplorer window will close automatically.  To close a buffer, hit <code>d</code>.</p>
+
+<p>By default the buffers are listed in most-recently-used order, and show full file paths. You can easily alter every aspect of the list either interactively or in your <code>~/.vimrc</code>.</p>
+
+<p>As an example, switch to relative paths with capital <code>R</code> while exploring.  Or configure it in your <code>~/.vimrc</code> with this line:</p>
+
+<pre><code>let g:bufExplorerShowRelativePath=1
+</code></pre>
+
+<p>You can close the <code>bufexplorer</code> window at any time with <code>q</code>.</p>
+
+<h3>Tags</h3>
+
+<p>Tags are a cross-editor file format for mapping classes and methods to filenames. Some people like to navigate code with tags.  If this is you, you'll be pleased to hear Vim has considerable built-in support for Exuberant CTags and Cscope.  In fact the top-rated and most downloaded Vim plugin on the Vim website is <a href="http://vim.sourceforge.net/scripts/script.php?script_id=273">Taglist</a>, which turns Vim into a fully fledged source code browser.</p>
+
+<p>See the website for more documentation on tags.</p>

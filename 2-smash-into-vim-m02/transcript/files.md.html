@@ -1,0 +1,191 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Working with multiple files</h1>
+
+<p>Most programming tasks involve working with several files, and sometimes dozens or even hundreds. First you need to find them, then you need good ways to arrange them in your Vim window.  Vim is very capable when it comes to arranging windows. There are many third-party plugins for opening files and switching between them.</p>
+
+<h2>Finding files</h2>
+
+<p>Finding and opening files is, oddly, the Achilles Heel of most text editors. Indeed you wouldn't choose Vim over another text editor simply for its file finding capability.  But nor would you abandon it.</p>
+
+<p>People like to look for files in many different ways.  If you're a visual sort, you want a hierarchical view of your files.  If you're a words person, you prefer to pull up files directly by name.  Most of us lie somewhere in the middle.</p>
+
+<p>Although Vim's own file finding is basic, there are at least half a dozen good plugins spread out across the visual-textual spectrum.  Your challenge is to find the one that suits you best.</p>
+
+<h3>Vim's own file finding</h3>
+
+<p>Vim always has a working directory.  You can see its current value with <code>:pwd</code> and change it with <code>:cd</code>.</p>
+
+<pre><code>:cd ~/directory
+</code></pre>
+
+<p>You will generally want it to be the root directory of your project, but you can have Vim automatically set its working directory to the current file's directory with <code>:set autochdir</code>.</p>
+
+<p>Or, check out a plugin we wrote while working on this screencast. The <a href="http://github.com/airblade/vim-rooter">Vim rooter</a> plugin looks up through parent directories for a <code>.git</code> directory and uses that as the working directory for the project. It works automatically when you edit or switch to a Ruby file, or can be invoked manually with <code>&lt;Leader&gt;cd</code>.</p>
+
+<pre><code>:pwd
+\cd
+:pwd
+</code></pre>
+
+<p>To edit a file, type <code>:e foo.rb</code> or go through subdirectories with <code>:e app/models/foo.rb</code>.  You can tab-complete filenames like a shell by putting <code>set wildmode=list:longest</code> in your <code>.vimrc</code>.</p>
+
+<pre><code>:e app/models/user.rb
+</code></pre>
+
+<p>The up arrow works as you would expect. Type just a colon, and hit the up arrow to see the last command. Or, type part of a command and hit the up arrow to scroll back through similar commands from your history. Some commands are relative, so they may not all work as they did originally, but it will get you most of the way there.</p>
+
+<p>If you pass a directory name such as <code>:e app/models</code>, you'll get a directory listing that you can navigate with all of Vim's motion commands.  You can alter the listing style with a few keys.</p>
+
+<pre><code>i             " cycle between thin, long, wide, and tree listings
+s             " cycle sorting between name, modification time, file size
+r             " reverse sort order
+gh            " hide/unhide dotfiles
+</code></pre>
+
+<p>You can also open files, delete files or directories, and do other tasks.</p>
+
+<pre><code>&lt;Enter&gt;       " open the file / directory
+x             " view file with associated viewer (e.g. OS X Preview for images)
+d             " make directory
+D             " delete the file / directory
+R             " rename the directory / file
+-             " go up a directory
+</code></pre>
+
+<p>You can use the exact same file management commands to edit remote files. In practice, I prefer to connect to a server with plain SSH, then run Vim locally.</p>
+
+<pre><code>$ vim scp://user@hostname/path/to/file
+$ vim ftp://hostname/path/to/file
+</code></pre>
+
+<p>Here's a tip: When you're editing code, <code>gf</code> (goto file) edits the file whose name is under the cursor.  Plugins like <code>rails.vim</code> customize this further to, for example, find partials. So it's a useful command.</p>
+
+<h3>File finding plugins</h3>
+
+<p>Navigating between files on disk or within a project is, surprisingly, underserved by the default features of Vim. Fortunately, third-party plugins make it a bit easier.</p>
+
+<p>I'll show you four different plugins: two visual and two textual.</p>
+
+<p>First up is the <a href="http://www.vim.org/scripts/script.php?script_id=1658">NERD Tree</a>.  This is the closest you'll get to TextMate's drawer, showing your files and directories in a tree.  It ships with many key mappings to navigate and manipulate the tree, all customisable, and you can show and hide the tree at will.  Naturally you don't need to take your hands off the keyboard to do any of this.</p>
+
+<p>Often, though, you don't need to see every last file in the tree.  Sometimes the files you do want to see are scattered across several locations.  In these cases you might prefer the <a href="http://www.vim.org/scripts/script.php?script_id=69">Project</a> plugin.</p>
+
+<p>It's a bit more work to set up, but once there you see exactly the files you want.  You manipulate and navigate its tree with Vim's folding commands, so you don't need to learn any new keystrokes. We'll look at standard folding a few chapters from now.</p>
+
+<p>See the PDF included with this screencast for a link to a <a href="http://nodnod.net/2009/feb/09/projects-vim-using-projectsvim/">quick overview</a> of the Project plugin.</p>
+
+<p>It's worth noting that the <code>rails.vim</code> plugin integrates with both NERD Tree and Project.</p>
+
+<p>Now let's look at the textual plugins. I prefer these because they're faster to work with and seem to be more, well, Vim-like.</p>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=1890">LustyExplorer</a> is both a file system explorer and a buffer explorer (we'll come to buffers in the next section). It uses fuzzy matching to pull up files, even if you don't type the full name of the file.  Emacs users may be familiar with it already.</p>
+
+<p>To activate it, type <code>&lt;Leader&gt;lf</code>. We'll mention the <em>leader</em> in a few chapters -- it's your custom shortcut key and is '\' by default.</p>
+
+<p>You'll see an unobtrusive prompt at the bottom of your screen.  Start typing the name of the file you want to see and LustyExplorer will refine the match as you go.  Hit <code>&lt;Tab&gt;</code> or <code>&lt;Enter&gt;</code> to open a match, or <code>&lt;Escape&gt;</code> to cancel. See the documentation for other commands provided by the plugin.</p>
+
+<p>LustyExplorer is fast and efficient but has one huge drawback: it doesn't recurse into directories.  You have to tab into each directory and subdirectory to reach the file you're looking for.  Adding this capability is on the author's to-do list, but most of the code is written in Ruby and this could be your chance to add a useful feature to a popular plugin.</p>
+
+<p>This brings us neatly onto our favourite file finder which was unashamedly inspired by TextMate: Jamis Buck's FuzzyFinder TextMate plugin.  It requires the <code>FuzzyFinder</code> Vim plugin and the <code>fuzzy_file_finder</code> Ruby gem, so you'll need to install those first.  Unfortunately, Vim doesn't provide any way to specify version dependencies, and different versions of these plugins have had compatibility problems.</p>
+
+<p>But fear not: as of this screencast you can install a working combination as follows.</p>
+
+<ol>
+<li><p>Download <a href="http://www.vim.org/scripts/script.php?script_id=1984">FuzzyFinder 2.22.3</a>.  Copy its contents to your Vim directory: <code>~/.vim</code>.</p></li>
+<li><p>Install the <a href="http://github.com/jamis/fuzzy_file_finder">fuzzy<em>file</em>finder</a> gem, version 1.0.4:</p>
+
+<p><code>$ gem install fuzzy_file_finder -v=1.0.4</code></p>
+
+<p>Copy <code>fuzzy_file_finder.rb</code> from the gem's <code>lib</code> directory into <code>~/.vim/ruby/</code>.  This shouldn't be necessary but it wouldn't work for me otherwise.</p></li>
+<li><p>Download Andrew Stewart's fork of <a href="http://github.com/airblade/fuzzyfinder_textmate/blob/master/fuzzyfinder_textmate.vim">fuzzyfinder_textmate</a>.  Then copy it to <code>~/.vim/plugin/</code>. See the PDF that came with this screencast for exact URLs.</p></li>
+<li><p>Finally, add the mapping <code>map &lt;Leader&gt;t :FuzzyFinderTextMate&lt;Enter&gt;</code> to your <code>.vimrc</code>.</p></li>
+</ol>
+
+<p>Now you can hit <code>\t</code>, type a few letters, and navigate to the file. The matches are presented in an omni-completion window that can be navigated up and down with <code>&lt;C-N&gt;</code> (next) and <code>&lt;C-P&gt;</code> (previous).  Hit <code>&lt;Enter&gt;</code> to open the selected file.</p>

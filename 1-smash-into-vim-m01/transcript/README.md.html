@@ -1,0 +1,193 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Vim - PeepCode</h1>
+
+<h2>Introduction [100%]</h2>
+
+<ul>
+<li><a href="introduction.md.html">Introduction</a></li>
+</ul>
+
+<p>What is Vim.  Brief history.  Vim/vi.</p>
+
+<h2>Philosophy [100%]</h2>
+
+<ul>
+<li><a href="philosophy.md.html">Philosophy</a></li>
+</ul>
+
+<p>The two big ideas in Vim.  Movement+command.  Modes.  Conventions/mnemonics.</p>
+
+<h2>Installation [100%]</h2>
+
+<ul>
+<li><a href="installation.md.html">Installation</a></li>
+</ul>
+
+<p>OS X.  Linux.  Windows.  Others.  Support for Ruby/Python/etc.  Feature selection.</p>
+
+<h2>Basics [100%]</h2>
+
+<ul>
+<li><a href="basics.md.html">Intro</a> </li>
+<li><a href="basics-longer.md.html">Longer Files</a></li>
+</ul>
+
+<p>Everything you need if all you want to do is edit config files on a server over ssh.
+GUI v console.  What's what in the Vim window.  Open/save files.  Movement (hjkl).  Insert.  Delete.  Cut/copy/paste.  Search/replace.  Undo/redo.  Tip: save file you need to sudo for, without leaving Vim.</p>
+
+<h2>Configuration [100%]</h2>
+
+<ul>
+<li><a href="configuration.md.html">Configuration</a></li>
+</ul>
+
+<p>Where to find Vim's configs.  No need for vim -N.  How it works (filetype detection).  Colour schemes (including vividchalk).  Syntax highlighting.  Debugging configuration (verbose, showmode, list).  Sensible configuration to get you started.</p>
+
+<h2>Buffers, windows, and files [100%]</h2>
+
+<ul>
+<li><a href="files.md.html">Intro</a> </li>
+<li><a href="files-windows.md.html">Windows</a></li>
+</ul>
+
+<p>"navigate to files easily (between all open files or to a new file in the current project/directory)...please mention your favorite fuzzy-finding file finder"
+BufExplorer, LustyExplorer, NERDTree, Fuzzy Finder, Tag List, etc.</p>
+
+<h2>Editing [100%]</h2>
+
+<ul>
+<li><a href="editing.md.html">Intro...</a> </li>
+<li><a href="editing-text.md.html">Text</a> </li>
+<li><a href="editing-search.md.html">Search</a> </li>
+<li><a href="editing-mapping.md.html">Mapping</a> </li>
+<li><a href="editing-folding.md.html">Folding</a></li>
+<li><a href="editing-completion.md.html">Completion</a></li>
+</ul>
+
+<p>Motion: left, right, up, down.  Text objects.  Pattern searches, * and #.  Marks.  Scrolling.
+Inserting.  Deleting.  Copying and moving.  Changing.  Gotacha: delete overwrites paste register.
+Visual mode (character, line, block).  O.
+Repeat last change, macros, registers.
+? Key mapping, abbreviations
+Omni-completion.
+Folding.
+Formatting.
+Leader.
+? External commands.
+Quickfix window (ack).
+Syntax highlighting.</p>
+
+<h2>Plugins [100%]</h2>
+
+<ul>
+<li><a href="plugins.md.html">Read...</a></li>
+</ul>
+
+<p>Where to find.  How to update.  vimball plugin.
+A few recommended plugins: endwise.vim, matchit.vim, rails.vim, vim-git.
+A few others: ack.vim, align.vim, taglist.vim, surround.vim.
+tComment.vim
+filetypes and autocommands?</p>
+
+<h2>Documentation [100%]</h2>
+
+<ul>
+<li><a href="documentation.md.html">Read...</a></li>
+</ul>
+
+<p>Excellence of the docs.  How to navigate them.</p>
+
+<h2>Conclusion</h2>
+
+<ul>
+<li><p><a href="conclusion.md.html">Read...</a></p>
+
+<p>vim:et:sw=2:sts=2</p></li>
+</ul>

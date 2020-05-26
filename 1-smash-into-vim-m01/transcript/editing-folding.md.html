@@ -1,0 +1,208 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing - Folding</h1>
+
+<p>In the classic science fiction novel <em>Dune</em>, people learn how to "travel without moving" by folding space and then taking a single step onto a new planet far away.</p>
+
+<p>In the current physical world this is only a dream, but in Vim, you definitely can navigate a file and operate on lines by folding large ranges of text.</p>
+
+<p>Novices start by using folds to fit more content on the screen. Experts use folds to perform searches or global operations on blocks of code as a single line.</p>
+
+<p>You may find that your mind doesn't naturally think in terms of folds. That's OK -- some people find them indispensable and others don't use them at all. After this chapter, you'll have a grip on what they can do and how to use them.</p>
+
+<h2>Folding</h2>
+
+<p>Vim offers several folding strategies, configured by <code>foldmethod</code>.  By default it's <code>manual</code>, meaning you have to set your own folds. But you can have Vim set up folds automatically based on </p>
+
+<ul>
+<li>indent</li>
+<li>syntax highlighting rules</li>
+<li>markers in the text</li>
+<li>unchanged text (used in diff views)</li>
+<li>or, if none of the above float your boat, your own custom expression</li>
+</ul>
+
+<p>Bear in mind that Vim doesn't contain a lexer or parser, so if you're folding by <code>indent</code> or <code>syntax</code> you'll inevitably encounter a few corner cases where Vim doesn't get it quite right.</p>
+
+<p>You'll quickly tire of defining folds manually, and we generally don't want to pollute our text with markers.  So where possible I suggest you fold by <code>syntax</code> or <code>indent</code>.</p>
+
+<h3>Syntax Folds</h3>
+
+<p>Let's have a quick look at a Ruby file, where folds are managed by the easiest strategy: syntax. First we'll do this interactively, but most of these commands can be stored in your <code>.vimrc</code> file as permanent defaults.</p>
+
+<p>Type <code>set foldmethod=syntax</code> to set up the folds automatically, or use the abbreviation <code>fdm</code>. It will initially fold everything.</p>
+
+<p>Now we'll open and close some folds.  Move your cursor down to the start of the next fold with <code>zj</code>, and type <code>zo</code> to open it.  <code>zc</code> closes it, while <code>za</code> toggles it open and closed.  As you would expect, you can move back up to the end of the previous fold with <code>zk</code>.</p>
+
+<p>Sometimes you want to close all folds or open all folds.  <code>zM</code> (most folding) and <code>zR</code> (reduce, or open, every fold) will do the trick.  Or you could toggle folding on or off altogether with <code>zi</code>.</p>
+
+<p>If you've made a pickle of your folds, you can reset them with <code>zx</code> -- which folds everything except the fold at the cursor's current line -- or <code>zX</code> to fold everything again.</p>
+
+<h3>Indent Folds</h3>
+
+<p>A fallback is to let Vim detect blocks eligible for folding by using simple indentation. CSS is an example of this and will also highlight a few problems that are easily fixed.</p>
+
+<p>Open a CSS file. Set the <code>foldmethod</code> to "indent".</p>
+
+<pre><code>:set foldmethod=indent
+</code></pre>
+
+<p>If you try folding a CSS block with <code>za</code>, you'll see an error. Vim's default indentation for CSS and some other files is 8 spaces. Yes, <em>eight</em>!</p>
+
+<p>I'm using only 2 here, so folding won't work until I configure it to match. Two settings are relevant: <code>shiftwidth</code> and also <code>softtabstop</code>. I'll set both to 2.</p>
+
+<pre><code>:set shiftwidth=2
+:set softtabstop=2
+
+Lower third: See :h tabstop
+Lower third: Run :retab to re-apply spaces instead of tabs
+</code></pre>
+
+<p>Now, try <code>za</code> or any other folding command. In this example, the closing brace isn't on it's own line, but that doesn't matter! It works as expected anyway.</p>
+
+<h3>Configuration</h3>
+
+<p>Naturally every aspect of folding is configurable.  Some options will apply everywhere, such as the width of the <code>foldcolumn</code>, a handy indicator. Put those in your <code>.vimrc</code> as standard root-level settings.</p>
+
+<p>Others will be file-type specific, such as setting the <code>foldmethod</code> to <code>syntax</code> for Ruby files or setting the <code>shiftwidth</code> as we did interactively. Set those with a filetype autocommand that will take effect when the file is opened:</p>
+
+<pre><code>autocmd FileType ruby setlocal foldmethod=syntax
+autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 softtabstop=2
+</code></pre>
+
+<p>The <code>setlocal</code> directive configures one or more settings for the current buffer, instead of tweaking settings for all files.</p>
+
+<pre><code>define folds yourself (when foldmethod = manual or marker):
+  zf{motion} / {Visual}zf      create a fold
+  :{range}fo[ld]               create a fold over range
+  zd                           delete fold at cursor
+  zE                           delete ("e"liminate) all folds
+
+opening/closing folds:
+  zo                           open fold at cursor
+  zc                           close fold at cursor
+  za                           toggle ("a"lternate) fold at cursor
+
+  zm                           increase foldlevel by one ("m"ore folding)
+  zr                           reduce foldlevel by one ("r"educe folding)
+
+  zM                           close all folds ("m"ost folding)
+  zR                           open all folds ("r"educe every fold)
+
+  zx                           reset folds but keep cursor line unfolded
+  zX                           reset folds
+
+  :{range}foldo[pen]           open folds in range
+  :{range}foldc[lose]          close folds in range
+
+moving over folds:
+  [z                           move to start of currently open fold
+  ]z                           move to end of currently open fold
+
+  zj                           move downwards to start of next fold
+  zk                           move upwards to end of previous fold
+
+enable/disable folding (workflow: enable, move to where you want, disable, do your stuff, enable):
+  zn                           disable folding ("n"o folding)
+  zN                           enable folding
+  zi                           toggle folding
+</code></pre>
+
+<p>If you're a heavy user of folding and you use Ruby, Objective Caml, PHP, Perl or Java, I suggest you check out Mauricio Fernandez's <a href="http://www.vim.org/scripts/script.php?script_id=1868">simplefold</a> plugin.  It's got a lot of nice features and it could be just the ticket for you.</p>
+
+<h2>Advanced Tip</h2>
+
+<p>Expert Vim user Eric Hodel sends in this tip. </p>
+
+<ul>
+<li>Fold a Ruby method block with <code>za</code></li>
+<li>Run a substitution on it with the <code>g</code> flag. No range is needed.</li>
+<li>Toggle it open again with <code>za</code>.</li>
+<li>Voila! The replacement was effective for all the folded lines.</li>
+</ul>

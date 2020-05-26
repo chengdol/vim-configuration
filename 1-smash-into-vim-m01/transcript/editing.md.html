@@ -1,0 +1,191 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing</h1>
+
+<p>This section is all about what Vim does best: editing text efficiently.  Mastering the techniques here can make you more productive.</p>
+
+<h2>Moving around</h2>
+
+<p>Moving around is one of the things Vim does best.  We'll show you the main ways, but if you can imagine it, it's probably already baked into Vim (or you can write a mapping to do it).</p>
+
+<p>When looking at these commands, bear in mind you can prefix any of them with a number to repeat the command.  So <code>5e</code> will move you to the end of the fifth word to the right.</p>
+
+<p>At first, navigating might feel like you're writing code while you write code, but these commands are built from simple parts that can be combined in powerful ways.</p>
+
+<p>And remember that most of these commands are for Normal mode. Hit <code>&lt;Escape&gt;</code> if you're in another mode.</p>
+
+<h3>Moving within a line</h3>
+
+<p><code>h</code> and <code>l</code> move you one character left and right.</p>
+
+<p><code>b</code> and <code>w</code> move you left and right one word at a time (think <em>b</em>ack and <em>w</em>ord).</p>
+
+<p>You can also move between larger sequences of non-blank characters, or WORDS. Use the the movement commands in uppercase.</p>
+
+<p>But Vim doesn't stop with cursor placement at just the beginning of words. It's about precision! You can move the cursor along at the <em>end</em> of words, too.</p>
+
+<pre><code>Use 'ge' to move backward and 'e' to move forward at the end of words.
+'E' goes forward at the end of larger WORD sequences
+'gE' jumps leftward in large jumps
+</code></pre>
+
+<p><code>0</code> and <code>$</code> move you to the start and end of the line.  If you want to go the first non-blank character of the line use <code>^</code> instead.  To move to the middle of the line, use <code>gm</code>.</p>
+
+<p>When Vim wraps long lines, you can navigate the start or end of a screen line with <code>g0</code>, <code>g^</code> and <code>g$</code>.  <code>g</code> is used a lot in Vim as a modifier.</p>
+
+<p>Another way to navigate is to jump to a specific character. To jump forward to the next occurrence of a character such as <code>x</code>, use <code>fx</code>.  To jump to the previous occurrence, use capital <code>Fx</code>.  </p>
+
+<pre><code>To jump til just before the character use 'tx' and 'Tx'.
+</code></pre>
+
+<p>You can repeat your latest character jump with the <code>;</code> (semicolon). The <code>,</code> (comma) repeats the last jump in the opposite direction. So <code>;</code> might jump forward or backward depending on the direction of the previous jump command.</p>
+
+<h3>Moving through the file</h3>
+
+<p>As you've already seen, <code>j</code> and <code>k</code> move down and up lines.  If it helps think of the <code>j</code> as a downward arrow. </p>
+
+<pre><code>'gj' and 'gk' move you down and up one screen line.
+'+' and '-' also move one line down and up but put the cursor on the first non-blank character of the line.
+</code></pre>
+
+<p>To jump to the middle line of the screen, use <code>M</code>.  <code>H</code> and <code>L</code> move the cursor to the top and bottom of the screen.</p>
+
+<p>Scrolling in various ways is also possible. Use <CTRL-F> and <CTRL-B> to scroll forward and backward a whole screen at a time. Or try these other combinations for more fine-grained control.</p>
+
+<pre><code>Diagram:
+
+You can scroll forward and back one line at a time with &lt;CTRL-E&gt; and &lt;CTRL-Y&gt;.
+
+&lt;CTRL-D&gt; and &lt;CTRL-U&gt; scroll down and up half a screen of text.
+</code></pre>
+
+<p>One of the more useful scrolling commands is <code>zt</code> to scroll the current line to the top of the screen.</p>
+
+<pre><code>To scroll the cursor's line to the centre of the screen, use 'zz'.  
+To scroll it to the top or bottom of the screen, use 'zt' and 'zb'.
+</code></pre>
+
+<p>Or sometimes it's easiest to go to a specific line.  Use either <code>42G</code> or <code>42gg</code> to go to line 42. Lowercase <code>gg</code> takes you to the first line of the document, and <code>G</code> takes you to the last.</p>
+
+<p>If you want to find out where you are in the file, <code>g CTRL-G</code> will tell you in the status line.  To display this information all the time, use the ruler (<code>:set ruler</code>) or show line numbers (<code>:set number</code>).</p>
+
+<pre><code>Lower Third or Sidebar: :set statusline=???, :set ruler, and :set laststatus=2
+</code></pre>
+
+<h3>Marks</h3>
+
+<p>Navigating to specific lines or files is possible with <em>marks</em>. You can't see them in the text, but you can set marks wherever you like. Vim also keeps track of a few marks for you.</p>
+
+<p>Every mark has a single alphabetic character name.</p>
+
+<p>To mark the cursor position, type <code>m</code> and a letter: <code>ma</code>, <code>mb</code>. Jump to it later with the backtick or single quote, and the letter.</p>
+
+<pre><code>`a
+</code></pre>
+
+<p>The backtick will take you to the exact line <em>and</em> column where the mark was set. Similarly <code>'a</code> (quote-a) jumps to the beginning of the line that was marked.</p>
+
+<p>Now what's the difference between lowercase marks and uppercase marks?  Uppercase marks are valid across files, but lowercase marks are on a per-file basis.  You'll find you use the lowercase version far more often.</p>
+
+<p>Marks aren't just for navigation. You can use the lowercase marks with operators. The combo command <code>d't</code> deletes lines from the cursor position to mark <code>t</code>.  This is a speedy way to avoid visual mode when selecting chunks of text.</p>
+
+<p>Vim maintains many other marks for you.  The more useful ones are:</p>
+
+<ul>
+<li><p>Numbered marks, 0-9, store the location of the cursor when you exit Vim.  <code>'0</code> (quote-zero) stores the location when you last exited; <code>'1</code> the time before, and so on.  This comes in handy if you edit a file, close Vim, then realise some time later you need to change one more thing.  Simply open Vim and hit <code>'0</code> -- you'll be right where you left off without having to fiddle around finding your file.</p></li>
+<li><p>The <code>'</code> (single quote) and <code>`</code> (backtick) marks store the position of the cursor before the latest jump.  Hit <code>''</code> (quote-quote) or <code></code> `` (backtick-backtick) to jump back to where you were.</p></li>
+</ul>
+
+<p>This can be useful for jumping repeatedly between two spots. Hit quote-quote to jump, then quote-quote again to jump back to the previous spot.</p>
+
+<ul>
+<li>The <code>.</code> (period) mark is the location of the last change, so <code>'.</code> (quote period) and <code>`.</code> (backtick period) take you back there quickly.</li>
+</ul>
+
+<p>Finally, to see a list of marks type <code>:marks</code>.</p>

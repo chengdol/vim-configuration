@@ -1,0 +1,205 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Philosophy</h1>
+
+<p>Vim looks complex but is built on only two simple ideas.  Once you've grasped them, everything else will fall into place. These two ideas are also the ones that distinguish Vim from most other text editors. </p>
+
+<p>The first idea is <em>modal editing</em> and the second is <em>operators</em>.</p>
+
+<h2>Modal editing</h2>
+
+<p>Vim is all about editing text efficiently.  Have you ever thought about how you write code, or <em>any</em> text for that matter?  You spend more time moving through existing text and editing it than you do typing fresh blocks of the stuff.  So it's sensible to make navigation and editing as easy as, or even easier than, typing it the first time.  And this is what Vim does.</p>
+
+<p>Most software prioritises text input over text editing: when your cursor is in the right place you just start typing.  Every word processor works this way.  If you want to cut and paste, or search, or change a word, you have to pull down a menu or use some combination of modifier keys.</p>
+
+<p>Vim turns this on its head: it knows that you spend more time editing than performing data entry, so it makes editing and navigation just as easy as, or perhaps slightly easier than, typing text from scratch.  As an example, if you want to move down a line or jump to the end of the document, you do it with single keys like <code>j</code> and <code>G</code>.</p>
+
+<p>And again, in the pursuit of efficiency, the things you do most often are on the home row of the QWERTY keyboard. There's rarely a need to move your hands away from the touch-typing position to move the cursor.</p>
+
+<p>So how does Vim know what you mean when you press <code>j</code>? Should it take you down one line, or type the letter <code>j</code> in the text? It depends on the mode. Pressing <code>j</code> in Command mode moves the cursor down a line. Pressing the same joy in Input mode adds a <code>j</code> to the text.</p>
+
+<p>This may sound confusing, especially when you hear there are five main modes -- Normal, Insert, Visual, Replace, and Command-line -- and a few others, too.  If keys behaves differently in each mode, how is anyone supposed to remember all the combinations?</p>
+
+<p>The big insight here is...you can ignore all the modes.  Don't worry about them.  Think about this instead: you simply give Vim one command after another.  For example: move down three lines, go to the opening bracket, insert some text, find the next opening bracket, and so on.  That's it.</p>
+
+<p>Some commands are self contained, such as 'delete the character under the cursor';  Vim knows what you want to do as soon as it sees the command.  For other commands, you need to tell Vim when you're ready to go.  For example, if you insert some text, Vim doesn't know whether you're intending to type all 1,200 pages of War and Peace or just write "Hello World"; you have to tell it when you've finished.</p>
+
+<p>So when you're getting used to Vim, think to yourself 'command ... command ... command' and you'll be fine.  You know this is what Vim wants because it starts up in Command mode.  And indeed Command mode is more commonly known as "Normal" mode.</p>
+
+<p>You may be thinking, "This is all very efficient, but how do I actually type in my code?"  It's a single command: <code>i</code>. This letter tells Vim you want to insert some text. When you're done, hit <code>&lt;escape&gt;</code> to let Vim know you've finished.</p>
+
+<pre><code>iIt was a dark and stormy night&lt;escape&gt;
+</code></pre>
+
+<p>You'll find you use <escape> a lot because it always takes you back to Normal mode, ready for the next command.</p>
+
+<h2>Operators</h2>
+
+<p>Vim has many motion commands, which we'll cover in depth later.  If you currently move your cursor with the arrow keys, <code>&lt;page up&gt;/&lt;page down&gt;</code> or <code>&lt;home&gt;/&lt;end&gt;</code>, you are in for a treat.  With Vim you'll be able to move your cursor quickly and with far more precision.</p>
+
+<p>But even better, you can change the text while you're moving over it.  This is a powerful workflow that you'll use all the time.</p>
+
+<p>Here are two examples:</p>
+
+<ul>
+<li><p>To delete from the cursor to the end of the line, type <code>d$</code>.  <code>d</code> for delete, and <code>$</code> to continue deleting all the way to the end of the line.</p></li>
+<li><p>To change all the code from the cursor to the second occurrence of <code>end</code>, type this:</p></li>
+</ul>
+
+<pre>
+    c2/end&lt;Return&gt;your new code&lt;Escape&gt;
+</pre>
+
+<p><code>c</code> for change, <code>2</code> for the second match, <code>/end&lt;Return&gt;</code> to search for the word <code>end</code>. Type your new code, then hit <code>Escape</code> to resume Command mode.</p>
+
+<p>It may look cryptic, but you'll find it makes more sense when you use it.</p>
+
+<p>In these examples the <code>d</code> and <code>c</code> are <em>operator</em> commands.  When an operator command is followed by a motion command, it tells Vim you want to operate on the text while you move over it.</p>
+
+<p>Operators can delete or change text, copy it, format it, or change its case, indent or outdent it.</p>
+
+<p>They'll feel more natural as you get used to the various motion commands.</p>
+
+<h2>Help</h2>
+
+<p>Which brings us briefly to Vim's extensive help system. To get help on <em>any</em> command or topic, use "colon h" and a term to search for.</p>
+
+<pre><code>:h movement
+:h j
+</code></pre>
+
+<p>To exit, type "colon bd", for "buffer delete."</p>
+
+<pre><code>:bd
+
+Lower Third: :q also closes help, but will also quit the entire application in some cases
+</code></pre>
+
+<p>Vim's help system is extremely useful when you're starting out, and is even useful for experts.</p>
+
+<h2>Conventions and mnemonics</h2>
+
+<p>In Vim, the keyboard is king; you won't find menu items or toolbar buttons for operators. That can be a lot of keys to remember, so Vim tries to help you.</p>
+
+<p>The first convention is that upper case commands are usually "super-sized" versions of their lower case counterparts. Lower case <code>i</code> inserts text where the cursor is; capital <code>I</code> inserts text at the start of the line.</p>
+
+<pre><code>Lower Third: Use 'j' or arrow keys to move downward
+</code></pre>
+
+<p>Lower case <code>w</code> moves the cursor forward one word; capital <code>W</code> treats contiguous code as one word and jumps forward to the next meaningful code "word."</p>
+
+<pre><code>items.each { |item| p item }
+ ^
+
+items.each { |item| p item }
+     ^     ^
+     w     W
+
+Lower Third: 'b' moves backward by words, also "B"
+Sidebar:
+
+      B b --- w W
+</code></pre>
+
+<p>Another convention is the forceful exclamation mark. Adding an exclamation mark to the end of a command will force it to happen without confirmation.  To quit Vim, type <code>:q</code>.  But Vim won't quit if you have unsaved changes; force it to quit without confirmation by adding an exclamation mark. </p>
+
+<pre><code>:q!
+</code></pre>
+
+<p>As always with Vim, it's all about efficiency.  The most commonly used commands are placed on the home keys and have the best mnemonics.  By the time you get to less frequently used commands, all the good mnemonics have been taken so their keys become slightly harder to remember.</p>
+
+<p>For example, moving the cursor is a common task, so these are under the strong fingers of the right hand.  You'll delete text frequently, so the sensible <code>d</code> deletes.</p>
+
+<pre><code> h                j              k            l
+(Back one letter)(Down one line)(up one line)(Forward one letter)
+</code></pre>
+
+<p>Slightly less obviously, the code-folding commands all begin with <code>z</code> because it looks like a folded sheet of paper.</p>
+
+<p>That's enough theory. There's no substitute for using Vim, so let's install it and put it to work!</p>

@@ -1,0 +1,197 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing - Text</h1>
+
+<h2>Text input</h2>
+
+<p>Once you've navigated to a location, what's the best way to enter text?  The simple way is <code>i</code> to go into Insert mode, followed by your text, then <code>&lt;ESC&gt;</code>.  That inserts the text at the cursor position.  </p>
+
+<p>In most text editors, you spend too much time adding blank lines and moving up and down to position the cursor before entering text. In Vim, you can accomplish most of these tasks with a single keystroke.</p>
+
+<ul>
+<li>Capital <code>I</code> moves the cursor to the first non-blank character of the line, then goes into Insert mode.</li>
+<li><code>a</code> moves the cursor one character right (think "appends"), then goes into Insert mode.</li>
+<li>Capital <code>A</code> moves the cursor to the end of the line, then goes into Insert mode.</li>
+<li><code>o</code> begins (think opens) a new line below the cursor's line, then goes into Insert mode.</li>
+<li>Capital <code>O</code> begins a new line above the cursor's current line, then goes into Insert mode.</li>
+</ul>
+
+<h2>Changing text</h2>
+
+<p>You frequently want to change existing text instead of entering new text.</p>
+
+<p>To replace the character you're on, type <code>r</code> and the new character. Vim goes straight back to Normal mode.  To replace several characters, you can go into Replace mode with capital <code>R</code> and type away; this will type over the top of what you had before.  Use the backspace key to restore the original text.</p>
+
+<p>However, because capital <code>R</code> doesn't specify a chunk of text to work on, it's usually quicker to change (<code>c</code>) or cut a defined chunk of text. For example, you can change the next three words with this command.</p>
+
+<pre><code>c3wMy new text&lt;Esc&gt;
+</code></pre>
+
+<p>Changing text also puts it on the unnamed register from which you can paste it later.</p>
+
+<p>To delete the character you're on, use <code>x</code>.  To delete the line type <code>dd</code> or capital <code>D</code>. These commands are consistent with others such as yanking a line with either <code>yy</code> or capital <code>Y</code>, or changing a line with <code>cc</code> or capital <code>C</code>.</p>
+
+<p>Join two lines with capital <code>J</code>, or more with a count such as <code>5J</code>.  This removes the indent and inserts up to two spaces which is good for text but less so for code.  To join lines without inserting or deleting any spaces, prepend Vim's special "g" modifier: <code>gJ</code>.</p>
+
+<p>A task that <em>is</em> common when editing code is shifting blocks of code left or right.</p>
+
+<p>You can indent and outdent lines of text in Normal mode with <code>[count]&gt;&gt;</code> (count greater thans) and <code>[count]&lt;&lt;</code> (count less thans).  If you're in Insert mode, it's easier to use <code>CTRL-T</code> and <code>CTRL-D</code>.  You can configure the amount of whitespace inserted or removed with the <code>shiftwidth</code> option, and whether or not tabs are used with the <code>expandtab</code> option.  These are usually set for you if you are working on a standard filetype, such as Ruby.</p>
+
+<h3>Text objects</h3>
+
+<p>Most graphical text editors provide only the simplest facilities for selecting text. For example, you might put the cursor before a word, then select a few words by hitting some combination of the arrow keys, command, option, and control.</p>
+
+<p>Vim's selection style is much more descriptive. You'll think ahead about the number of elements you want to select, then you'll describe that with a few characters and numbers.</p>
+
+<p>As well as characters, words and WORDS, Vim knows about sentences, paragraphs and tags. You can move with one command to the start or end of a text object, and of course you can also change the text as you move over it.</p>
+
+<p>To move to the start or end of a sentence, use <code>(</code> (open paren) and <code>)</code> (close paren). For paragraphs use curly braces.</p>
+
+<p>As an aside, you can bounce between matching brackets or parens with <code>%</code>.  The <code>matchit</code> plugin, which comes bundled with Vim, extends this to cover <code>if</code>/<code>elsif</code>/<code>end</code>, <code>do</code>/<code>end</code> and so on.</p>
+
+<pre><code>DEMO: Show editing an ERB file
+</code></pre>
+
+<p>So when you're in Visual mode, or after you've typed an operator (such as <code>c</code> for change), you can select text objects with a very simple two letter pattern:</p>
+
+<p>The first letter determines whether or not the text object's leading and trailing delimiters will be included.  Use <code>a</code> to include them (think: <em>a</em>ll of the object) or <code>i</code> not to (think: <em>i</em>nner object).</p>
+
+<p>The second letter specifies the text object to select.  It can be:</p>
+
+<ul>
+<li><code>w</code> for word</li>
+<li>Capital <code>W</code> for WORD</li>
+<li><code>s</code> for sentence</li>
+<li><code>p</code> for paragraph</li>
+<li><code>t</code> for an HTML or XML tag</li>
+<li>A bracket or quotation mark.</li>
+</ul>
+
+<p>Here are few examples.</p>
+
+<pre><code>&lt;h1&gt;PeepCode Screencasts&lt;/h1&gt;
+        ^
+</code></pre>
+
+<p>Type <code>vit</code> to <em>v</em>isually select the text <em>i</em>nside the HTML <em>t</em>ag. Or, type <code>vat</code> to visually select <em>a</em>ll the text, including the tag.</p>
+
+<p>Then, use any other editing command to change the text. For example, <code>c</code> and "Bacon" to change the title to "Bacon".</p>
+
+<p>If you don't need visual confirmation, you can combine editing and selection commands.</p>
+
+<p>Suppose you want to change <code>flash[:warn]</code> to <code>flash[:error]</code>.</p>
+
+<pre><code>flash[:warn] = "Failed to create the project #{@project.name}."
+        ^
+</code></pre>
+
+<p>Type <code>ci]:error&lt;ESC&gt;</code> to <em>c</em>hange the text <em>i</em>nside the square brackets.</p>
+
+<p>If you're in Visual mode, trying to get your text selection just right, <code>o</code> is extremely useful. It toggles which end is active, that is, the end that moves.  So you never have to give up and re-select something if the starting position is off by one. This works in all three Visual modes: characterwise, linewise and blockwise.</p>
+
+<p>As you would expect, you can use counts with all these commands.</p>
+
+<p>It's possible but non-trivial to re-define the paragraph and section text objects in a way that makes sense for your language.  The Ruby filetype plugin has a simple workaround: it just re-maps the section motion commands to a custom function which does the right thing.</p>
+
+<pre><code>" ftplugin/ruby.vim
+" http://github.com/vim-ruby/vim-ruby/blob/master/ftplugin/ruby.vim#L106-114
+" Treat classes and modules as 'sections':
+`[[`           " move back to the start of the previous class or module
+`]]`           " move forward to the start of the next class or module
+</code></pre>
+
+<p>There are similar motions to move to the end of the previous/next class or module, but I find it much less confusing to use <code>%</code> to bounce around.</p>
+
+<p>It also defines mappings for a pseudo 'method' text object:</p>
+
+<pre><code>`[m`           " move back to the start of the previous `def`
+`]m`           " move forward to the start of the next `def`
+</code></pre>
+
+<p>But once again, it's simpler to just use <code>%</code> to move between the beginning and end of a single method.</p>

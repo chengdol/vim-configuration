@@ -1,0 +1,189 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing - Completion, Filtering, Copying, and Repeating</h1>
+
+<h2>Completion</h2>
+
+<p>Most programmers know the value of auto-completion as a time-saving feature and a memory saving aid.  Vim can complete words using a variety of different sources.  Each source has its own completion command but really all you need to know is <code>&lt;CTRL-N&gt;</code>, or generic completion.</p>
+
+<p>This brings up a floating window of possible completions.  Move down through them with <code>&lt;CTRL-N&gt;</code> and up with <code>&lt;CTRL-P&gt;</code> (next and previous). Arrow keys work, too. When your desired word is highlighted, hit <code>&lt;Enter&gt;</code> or just resume typing and Vim will insert the word into your text.</p>
+
+<h2>Filtering and formatting</h2>
+
+<p>Vim is capable of handling menial filtering and formatting tasks.</p>
+
+<p>Sometimes it's helpful to filter lines of text through an external program such as <code>uniq</code>. The buffer or selection will be replaced by the output of the command.  </p>
+
+<p>As usual you choose the text to filter either with a motion or via Visual mode. To run the filter, type <code>:!{filter}</code> (colon bang filter).</p>
+
+<p>Assuming a file with duplicate, adjacent lines, if I want to deduplicate the whole buffer, do any of these:</p>
+
+<pre><code>ggVG!uniq
+gg!Guniq
+:1,$!uniq
+:%!uniq
+</code></pre>
+
+<p>Vim has a built-in <code>sort</code> command that can be used to sort on various parts of each line.  At its simplest, do <code>:[range]sort</code> or <code>:[range]sort!</code> to reverse.  Vim can do more than that -- see <code>:h sort</code> if you're interested.</p>
+
+<p>Let's try a visual selection and sort on a range. </p>
+
+<ul>
+<li>Hit <code>v</code> to go into Visual mode</li>
+<li>Move down a few lines with any navigation command, mark, or search</li>
+<li>Hit <code>:</code>. You'll see the visual range specifier.</li>
+<li>Type <code>sort</code> and only the selected range will be sorted. </li>
+<li>For an external command, do the same but prepend a <code>!</code> to the command as usual.</li>
+</ul>
+
+<h3>Auto-formatting</h3>
+
+<p>Many programmers spend way too much time performing manual indentation of their code. Let the computer do it for you! The equal sign will do the trick. Select the entire buffer and indent it with this command.</p>
+
+<pre><code>ggVG=
+</code></pre>
+
+<h3>Alignment</h3>
+
+<p>Perhaps you write the odd bit of documentation from time to time.  You can centre, left- and right-align the text with <code>center</code> , <code>left</code>, and <code>right</code>, or their abbreviations <code>ce</code>, <code>ft</code>, and <code>ri</code>.  <code>ce</code> and <code>ri</code> take an optional width. The default is the value of <code>textwidth</code>, usually 80. <code>le</code> takes an optional indent. The default is 0.</p>
+
+<pre><code>:.,+3ri         " right-align current line and next two at `textwidth` or 80.
+V2j:ri 90       " right-align current line and next two at 90 columns
+</code></pre>
+
+<p>You can re-format or "re-flow" prose with <code>gq</code>, but if you're coding it's easier to just use <code>=</code>.</p>
+
+<p>A useful tip when pasting from other applications is to turn off Vim's formatting just before you paste, with <code>:set paste</code>.  Afterwards <code>:set nopaste</code> to carry on.</p>
+
+<h2>Copying and moving text</h2>
+
+<p>So far, when we've talked about yanking and pasting text, we've focused on how to choose the text to yank rather than how the yanking works.  As usual with Vim, you can get by without knowing but you'll be a lot more efficient if you understand what's going on.</p>
+
+<p>Vim's registers are much richer than the standard clipboard available on your basic operating system.</p>
+
+<p>Whenever you delete, change, substitute, search, or yank text, Vim stores it in a register.  The one we've been using so far is the default, unnamed register.  Hopefully you won't be surprised to learn there are eight other types of register, adding up to 48 registers total.  Fortunately it's not as overwhelming as it sounds.</p>
+
+<p>Before I show you the registers in detail, here's how to use them.  Just as you would indicate a mark with a backtick or an apostrophe, you choose a register with a double quotation mark <code>"</code>.  To yank a line into the register named <code>a</code>, type <code>"ayy</code>.  And to paste it, type <code>"ap</code>.  Basically you just specify the register you want to use before sending the command you would have used otherwise.</p>
+
+<p>Most of the time you'll just use the named registers <code>"a</code> to <code>"z</code> and <code>"A</code> to <code>"Z</code>.  The uppercase registers append new text to their contents rather than replacing it.</p>
+
+<p>Whenever you delete text with <code>d</code>, <code>c</code>, <code>s</code>, or <code>x</code>, or copy it with <code>y</code>, Vim stores the text in one of the various other registers.  The unnamed register, <code>""</code>, always points to the last used register, which means it always has the last deleted text.</p>
+
+<p>It's worth noting this because it can be confusing. A typical scenario with unintended results happens when you yank a line with <code>yy</code> so you can paste it somewhere else.  Before you paste it, you see a typo and delete a character with <code>x</code>.  You then hit <code>p</code> to paste the line...but instead get the character you deleted.</p>
+
+<p>There are two ways around this: either specify one of the named registers to use for your yank and paste commands or, better yet, use the numbered register <code>"0</code> which always contains text from the most recent yank command (unless you specified a named register). So the trick is to paste from it with <code>"0p</code>.</p>
+
+<p>The numbered registers <code>"1</code> to <code>"9</code> contain the text from the last delete or change command, but you'll rarely use them.</p>
+
+<p>If you lose track, you can see what all the registers contain with <code>:registers</code>.</p>
+
+<p>The system's clipboard is available via <code>"+</code> or <code>"*</code>.  These two registers only differ on X11 Unix systems, where <code>"+</code> is the clipboard and <code>"*</code> is the current visual selection.</p>
+
+<p>In MacVim, whenever you search for something, the search query is copied onto the OS X "find pasteboard".  So if you switch to another application you can repeat the search with <code>&lt;D-g&gt;</code> also known as Command-g.</p>
+
+<h2>Repeating commands</h2>
+
+<p>You can repeat your last change (or yank) with <code>.</code>, specifying a different count if you want.  </p>
+
+<p>You can repeat the last command-line command with <code>@:</code>.  The last command-line command is stored in the <code>":</code> register, and <code>@</code> executes the contents of the given register.</p>
+
+<p>As you can see, there are shortcuts to recall, replay, and rework almost every action you take in Vim. In practice, you'll start with a few of the basics and add others as your tasks demand more precise commands.</p>
+
+<p>Sometimes you have a whole bunch of lines, perhaps a table or CSV file, and you want to apply the same set of editing commands to each line.  If it's too complicated for a regular expression, you can record the keystrokes you apply to one line and then play that sequence back over all the other lines.</p>
+
+<p>Vim calls such a recording a <code>macro</code>.  You start and stop recording with <code>q</code>, and when you start you also specify which named register (<code>"a</code> to <code>"z</code>) Vim should store the commands in.  So to swap the first two words of a line, you could do:</p>
+
+<pre><code>qa^dawwPjq
+</code></pre>
+
+<p>That is, start recording into register "a (<code>qa</code>): go to the first non-blank character of the line (<code>^</code>); delete a word including whitespace (<code>daw</code>); move to the start of the next word (<code>w</code>); paste behind the cursor (<code>P</code>); move down to the next line (<code>j</code>); stop recording (<code>q</code>).</p>
+
+<p>Now test your macro on the next line: type <code>@a</code> to execute it.  If all's well, hit <code>5@@</code> to repeat the last macro five times -- or however many is appropriate.</p>
+
+<p>I rarely get a macro right first time, so it's good to know you can easily undo changes with <code>u</code>.</p>

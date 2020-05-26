@@ -1,0 +1,207 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing - Mapping</h1>
+
+<p>Vim works great as-is, but there's no reason not to outfit it with new fenders, a chrome bumper, and a horn that goes "eee-aww".</p>
+
+<p>Editor customization happens in three stages of increasing complexity: Basic configuration, custom key mappings, and finally full-scale Vimscript plugins.</p>
+
+<h2>Mappings</h2>
+
+<p>Mappings provide a convenient way to enter a sequence of commands with just a few keystrokes.  You map one set of keystrokes to another, and when Vim sees the former it acts as if you had typed the latter.</p>
+
+<pre><code>:map {what you type} {what vim pretends you typed}
+</code></pre>
+
+<p>Mappings are a good way to replicate the effects of keystrokes you may have memorised in other text editors, or just to provide shortcuts for frequently used commands.</p>
+
+<p>You know, for example, that in Normal mode <code>&gt;&gt;</code> and <code>&lt;&lt;</code> indent and outdent the current line.  In Visual mode, a single angle bracket indents and outdents the selected block -- returning you to Normal mode immediately afterward.  This can be tiresome if you were hoping to do something else with the selected region.</p>
+
+<p>Here's a nugget that will take us the rest of the way: <code>gv</code> starts Visual mode with the previously selected area re-selected. We can use this right in the current editing sesion to create a mapping that solves our problem.</p>
+
+<pre><code>:vmap &gt; &gt;gv
+:vmap &lt; &lt;gv
+</code></pre>
+
+<p>Let's pull this apart:</p>
+
+<ul>
+<li><code>vmap</code> creates a mapping that will take effect in Visual mode.</li>
+<li>The first angle bracket is our shortcut. It's what you'll type.</li>
+<li>The second angle bracket, plus <code>gv</code> is what Vim will type in return.</li>
+</ul>
+
+<p>Some text editors let you indent and outdent a visual selection with tab and shift-tab. We can map the same functionality to additional keys with special codes.</p>
+
+<pre><code>:vmap &lt;Tab&gt; &gt;gv
+:vmap &lt;S-Tab&gt; &lt;gv
+</code></pre>
+
+<p>When you define a mapping, you specify which modes it applies to.  Use <code>nmap</code> to define a Normal mode mapping, <code>imap</code> for Insert mode, <code>vmap</code> for Visual mode, and so on.  There's even more fine-grained control -- see the documenation for details.  </p>
+
+<p>The two commands that aren't prefixed with a mode handle several modes at once:</p>
+
+<pre><code>map  ::  Normal, Visual, and Operating-pending modes
+map! ::  Command and Insert modes
+</code></pre>
+
+<p>Here's an example of mapping tab to autocomplete.  We only want this mapping in Insert mode, so we do:</p>
+
+<pre><code>:imap &lt;Tab&gt; &lt;C-N&gt;
+:imap &lt;S-Tab&gt; &lt;C-P&gt;
+</code></pre>
+
+<p>Now you can hit tab to bring up the autocompletion window, and tab or shift-tab through the options.</p>
+
+<p>You can examine the value of an existing mapping by omitting the final argument.</p>
+
+<pre><code>:vmap &gt;
+</code></pre>
+
+<p>You can remove a mapping with <code>unmap</code>:</p>
+
+<pre><code>:vunmap &gt;
+</code></pre>
+
+<p>To see all mappings for a mode, use <code>map</code>, <code>vmap</code>, or any other mode's map specifier. Scroll through with the spacebar, or hit <code>q</code> to quit the listing. Mappings are often quite detailed.</p>
+
+<p>Sometimes it's useful to swap two characters. For example, it's easier to type a semicolon than a colon -- no shift key is involved. And since you'll need to type the colon frequently in Normal mode, it would be useful to swap those two characters.</p>
+
+<p>But if you do, Vim will warn you that you've committed a recursive mapping. Fortunately there's the <code>noremap</code> command, with versions for all the modes. Let's safely remap the colon in Normal mode:</p>
+
+<pre><code>:nnoremap ; :
+:nnoremap : ;
+</code></pre>
+
+<p>And just in case you're wondering, you should store all your mappings in your <code>.vimrc</code>, hopefully stored under source control.</p>
+
+<p>So what keystrokes are safe to map?  Vim uses pretty much all of them already so you need to be careful.  This is how you decide:</p>
+
+<pre><code>Do you want to override Vim's behaviour, as we did just now?  --Yes--&gt; Go ahead.  Done.
+                                 |
+                                 | No
+                                 |
+Do you want carpal tunnel syndrome? --Yes--&gt; Map a meta key (or unused function key if you have any).  Done.
+                                 |
+                                 | No
+                                 |
+Prefix your desired key with the map leader.  Done.
+</code></pre>
+
+<p>The map leader is a character whose sole purpose is to prevent your mappings from conflicting with Vim's commands.  Its default value is <code>\</code> but you can set it in your <code>.vimrc</code> to anything you feel comfortable typing (which doesn't clash..).  Note that you set it slightly differently from other options:</p>
+
+<pre><code>let mapleader = ","
+</code></pre>
+
+<p>Let's say, for example, you want to map Ctrl-F in Insert mode to uppercase the word before the cursor.  You could map Ctrl-F directly:</p>
+
+<pre><code>:map! &lt;C-F&gt; &lt;Esc&gt;gUiw`]a
+</code></pre>
+
+<p>Or, if you didn't want to wipe out Vim's default Ctrl-F (scroll forward 1 page), you could take it to your leader:</p>
+
+<pre><code>:map! &lt;Leader&gt;f &lt;Esc&gt;gUiw`]a
+</code></pre>
+
+<p>And use it by typing "backslash f".</p>
+
+<h2>Abbreviations</h2>
+
+<p>Abbreviations replace one word with another.  They have two main uses: abbreviating long words you type often, and correcting your common spelling mistakes.</p>
+
+<p>They apply in Insert mode, Replace mode, and Command-line mode.  You define, view, remove and clear them just as you do with mappings, using <code>abbreviate</code> or <code>ab</code> instead of <code>map</code>.</p>
+
+<p>Here are some examples:</p>
+
+<pre><code>:iab ff Firefox                       " Insert mode only
+:ab compatability compatibility       " Insert, Replace, and Comand-line modes
+:ab teh the
+</code></pre>
+
+<p>Vim expands abbreviations when you insert a space, or hit <code>&lt;Esc&gt;</code> or <code>&lt;Enter&gt;</code>. So for misspelled words, you can type with impunity and Vim will clean up after you.</p>

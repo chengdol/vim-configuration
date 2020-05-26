@@ -1,0 +1,177 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Installation</h1>
+
+<p>Vim is available on Unix, Mac OS X, Windows, and other operating systems. Refer to the <a href="http://www.vim.org/download.php">Vim website</a> for a full list of downloads.</p>
+
+<p>When producing this screencast, the latest stable version of Vim was 7.2.</p>
+
+<pre><code>:version
+</code></pre>
+
+<h2>Mac OS X</h2>
+
+<p>There is an excellent port of Vim 7.2 for Mac OS X, called MacVim. It is available as a universal binary.</p>
+
+<p>We recommend getting the <a href="http://code.google.com/p/macvim/wiki/Snapshot">latest snapshot release</a> because the latest stable release is more than a year older.</p>
+
+<p>Be careful...there are two different ports called MacVim. The best one is at <a href="http://code.google.com/p/macvim/">Google code</a>, not <a href="http://macvim.org/">MacVim.org</a>.</p>
+
+<p>Download the application, uncompress it, and copy it to your "Applications" directory.</p>
+
+<p>You can also build it from source if you want to.  There are good instructions on the <a href="http://code.google.com/p/macvim/wiki/Building">website</a>.</p>
+
+<p>Once you have installed MacVim, give your shell the good news: copy the bundled <code>mvim</code> shell script to a directory in your path. We also recommend that you symlink <code>vim</code> to it as a shortcut if you want to run the latest <code>vim</code> in the Terminal.  So if <code>~/bin</code> is in your path, copy and link it with these commands:</p>
+
+<pre><code>$ cp ~/Downloads/MacVim-snapshot-51/mvim ~/bin/
+$ ln -nfs ~/bin/mvim ~/bin/vim
+</code></pre>
+
+<p>Then in your Terminal you can fire up MacVim with <code>mvim &lt;filename&gt;</code> or the GUI-less Vim with <code>vim &lt;filename&gt;</code>.</p>
+
+<p>Finally, spread the love to tools like <code>crontab</code> and <code>git rebase -i</code> by setting up your shell's <code>EDITOR</code> variable (probably in the <code>.bashrc</code> file in your home directory):</p>
+
+<pre><code>export EDITOR='/Users/peepcode/bin/vim'
+</code></pre>
+
+<p>Be sure to point <code>EDITOR</code> to <code>vim</code>, not <code>mvim</code>.</p>
+
+<h2>Unix / Linux</h2>
+
+<p>Vim is probably already available on your system but it might not be the latest version. Or, it might not have been compiled with the features you want.</p>
+
+<p>Compiling Vim from source is both easy and the best way to go. Download the latest version and unzip it.</p>
+
+<pre><code>$ wget ftp.vim.org/pub/vim/unix/vim-7.2.tar.bz2
+$ bunzip2 -c vim-7.2.tar.bz2 | tar -xf -
+$ cd vim72
+</code></pre>
+
+<p>Vim has many optional features which can be compiled in.  To make things easier, they are grouped into feature lists: <code>tiny</code>, <code>small</code>, <code>normal</code> (the default), <code>big</code>, and <code>huge</code>.  Unless you are running on a puny system I recommend treating yourself to the <code>huge</code> list of features.  Do this in the <code>configure</code> step:</p>
+
+<pre><code>$ ./configure --with-features=huge
+</code></pre>
+
+<p>You can also compile in Ruby support (and/or Perl, Python and Tcl).  This doesn't affect whether or not you can edit Ruby files in Vim; instead it allows you to run Ruby commands within Vim, and to script Vim with Ruby.  To do this, use a <code>configure</code> step like this:</p>
+
+<pre><code>$ ./configure --with-features=huge --enable-rubyinterp
+</code></pre>
+
+<p>By default Vim will install into <code>/usr/local</code>.  To install elsewhere, specify it with the standard <code>--prefix</code> flag.</p>
+
+<pre><code>$ ./configure --with-features=huge --enable-rubyinterp --prefix=/your/path/here
+</code></pre>
+
+<p>Now you can build Vim with the standard <code>make</code> and <code>make install</code>:</p>
+
+<pre><code>$ make
+$ make install
+</code></pre>
+
+<p>Experts can fine-tune which features are compiled in by editing the <code>Makefile</code> instead of specifying a feature list.  You can see the full list with the <code>--help</code> flag:</p>
+
+<pre><code>$ ./configure --help
+</code></pre>
+
+<p>To verify success, type:</p>
+
+<pre><code>$ vim --version
+</code></pre>
+
+<p>You should see the version number and a long list of enabled or disabled features.</p>
+
+<h2>Windows</h2>
+
+<p>On Windows the best option is to install a pre-built binary for GVim, the graphical version of Vim.  Go to Vim's <a href="http://www.vim.org/download.php#pc">downloads</a> page and get the self-installing executable, named <code>gvim72.exe</code> or similar.  Double-click the file to start the installer; it's a good idea to tick the box labelled <code>Create .bat files for command line use</code>.</p>
+
+<p>If you use a 64 bit version of Windows, you could follow the <a href="http://code.google.com/p/vim-win3264/wiki/Win64Binaries">instructions at the Google Code project</a>.</p>
+
+<p>Cygwin users can get hold of Vim through Cygwin's installer.</p>
+
+<p>Once you have installed gVim, use <code>gvim</code> rather than <code>vim</code> on the command line.</p>

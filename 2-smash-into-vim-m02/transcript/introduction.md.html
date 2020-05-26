@@ -1,0 +1,137 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Introduction</h1>
+
+<p>It's PeepCode!</p>
+
+<p>In the next hour, you will become familiar with the Vim text editor.</p>
+
+<p>Vim was specifically built to help programmers edit text more efficiently.  Because of its origins in the Terminal, it can be daunting at first. But with a little practice, you will find it well worth the effort.  I think you'll find that it's not as hard as it looks: once you've grasped two main concepts it will all make sense.</p>
+
+<p>Learning the piano is also said to be worthwhile, but only if you want to play music. How do you decide whether learning Vim will pay off for you?  Here are some areas where Vim shines:</p>
+
+<ul>
+<li>It's on every platform.</li>
+<li>It's entirely keyboard driven (though you can use a mouse if you want).</li>
+<li>It's precise: you'll feel like a text surgeon.</li>
+<li>It's powerful: you can make sweeping changes with just a few keystrokes.  Unlike some other editors, those keystrokes won't strain your fingers.</li>
+<li>It works very well over SSH, even from an iPhone!.</li>
+<li>It's highly configurable.</li>
+<li>You can extend it with plugins to do exactly what you want.</li>
+<li>If you use MacVim on Mac OS X, many standard keyboard shortcuts will work as you expect them to, right out of the box.</li>
+<li>The documentation is excellent.</li>
+<li>Finally, you'll build skills that you can use for years, or maybe even decades!</li>
+</ul>
+
+<p>Lighthearted feuds between users of various text editors are well known, but we sincerely want you to use the editor that you find most comfortable. Here are some areas where Vim is suboptimal:</p>
+
+<ul>
+<li>Many of its defaults are not what you want.  Fortunately that's easy to fix.</li>
+<li>Its scripting language is not a full-blown language like Ruby or Lisp, but the clunky Vimscript.  You can work around this to an extent with the Ruby interface, but it does put an upper bound on the sophistication of things like indentation logic.</li>
+<li>It is sometimes too easy to perform destructive tasks such as overwriting the paste buffer.</li>
+<li>Its default regular expression syntax is inconsistent.</li>
+</ul>
+
+<p>Of course, there are other great text editors out there, including TextMate and Emacs. The writers and editors of this screencast have done time with all three, so we'd like to think we could go a full 12 rounds for or against any of them. It doesn't really matter which one you choose, but you'll benefit most if you pick one and master it.  If you're currently undecided, this screencast will help you figure out whether Vim is the best one for you. Or, you might steal some of Vim's best ideas back to your editor of choice.</p>
+
+<p>TextMate devotees will benefit too: when it's time to edit your Linux server's settings -- Apache configs perhaps -- you'll have the knowledge and confidence to fire up Vim and get it done stat so you can return straightaway to the comfort of that gorgeous TextMate GUI.</p>
+
+<h2>History</h2>
+
+<p>Vim started life in 1991 as Bram Moolenaar's improvement on Bill Joy's venerable Vi editor, which itself began in 1976. The name <em>vim</em> comes from Vi IMproved.  Bram still leads Vim's development today, almost 20 years later.  Few open source projects have been actively developed for this long or with this continuity, and it shows in Vim's stability, speed, documentation, and community.</p>
+
+<p>Vim is charityware: it comes for free but you are asked to consider donating to the Kibaale Children's Centre in Uganda.  You can find more details on Vim's website.</p>
+
+<h2>Learning Vim</h2>
+
+<p>In this screencast, we'll cover a lot of content in about an hour. Don't try to remember everything the first time. It's probably enough to just watch the various keystrokes pass in front of your eyes so you know what Vim is capable of.</p>
+
+<p>Later, you can revisit specific topics or follow along in your own copy of Vim.</p>
+
+<p>And, as always, use the pause button if you need to think about a topic or take a break.</p>

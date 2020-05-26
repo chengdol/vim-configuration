@@ -1,0 +1,112 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Documentation</h1>
+
+<p>Vim's documentation is one of its greatest strengths, and is a great source for building on the Vim knowledge you learned in this screencast.  The only drawback is it can be quite hard to find what you need if you don't know what to look for.</p>
+
+<p>You can find an online version of <a href="http://vimdoc.sourceforge.net/">Vim's documentation</a>, but it's much easier to access it within Vim.</p>
+
+<p>You can access the documentation with <code>:help</code>, or <code>:h</code> for short.  It's divided into two manuals: the user manual, which explains how to accomplish various tasks, and the reference manual which goes into the nitty gritty.</p>
+
+<p>You can go straight to a topic by searching for it. </p>
+
+<pre><code>:h autocmd
+</code></pre>
+
+<p>If you're not quite sure what to look for, use auto-completion.  Type <code>:h</code> with a few letters and then <code>&lt;Tab&gt;</code> to show the possibilities.</p>
+
+<p>Every subject is tagged with one or more keywords in an alternate color.  If your cursor is on a subject tag, you can jump to it with <code>CTRL-]</code>.  To get back again, type <code>CTRL-T</code> or <code>CTRL-O</code>. </p>
+
+<p>You can close the help window with <code>:q</code>.</p>
+
+<p>So, for example, to look up what the <code>gf</code> command does, type <code>:h gf</code>.  You'll see that it depends on the <code>path</code> option; to check on that quickly, type <code>/path</code> to go to the word, then hit <code>CTRL-]</code> to jump into it.  When you've read enough about <code>path</code>, <code>CTRL-T</code> will take you back to where you were.</p>
+
+<p>Finally, if you open up the main help with <code>:h</code> and scroll down past the reference manual, you'll come to a section called Local Additions.  This links up the documentation for all the plugins you have installed (but only if you've read in their help docs with <code>:helptags ~/.vim/doc</code> or <code>:call pathogen#helptags()</code>).</p>
+
+<p>I recommend you dip into the documentation as often as you can.  It's a great resource and you'll always learn something new.</p>

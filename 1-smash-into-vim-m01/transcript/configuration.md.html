@@ -1,0 +1,218 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Configuration</h1>
+
+<p>Before we go any further, we'll configure Vim with some sensible values. Some of Vim's default settings are less than ideal, so it's worth knowing how to change them by editing a few files.</p>
+
+<p>But talking about them as mere files, as letters that form words, trivializes their significance! Your Vim configuration is a living document, now in its infancy, soon to mature into an intelligent, charming, humorous sidekick with a penchant for eating vegan beef jerky after midnight.</p>
+
+<p>The Vim configuration files that you create today may stay with you for the Rest. Of. Your. Life.</p>
+
+<p>On your deathbed, you will pull a floppy disk from it's sheath, hand it to your children and say "This is my life's work -- suitable for editing all manner of text files in extreme comfort."</p>
+
+<p>In all seriousness, your Vim configuration files, properly organized, can be used on any machine, whether graphical or terminal-based. And many people do enhance them for years and years.</p>
+
+<p>A vanilla installation of Vim is a useful text editor. Your configuration files turn it into <em>your</em> text editor.</p>
+
+<h2>Storage</h2>
+
+<p>Before we even begin, let's talk about storage. I hope it doesn't need to be mentioned that you should keep them under some kind of source code control.</p>
+
+<p>The files in question will be the <code>.vimrc</code> and <code>.gvimrc</code> in your home directory. You'll also build up a <code>.vim</code> directory with more extensive third-party configuration files and templates.</p>
+
+<pre><code>~/
+  .vimrc
+  .gvimrc
+  .vim/
+      autoload/
+          rails.vim
+      colors/
+      plugin/
+          rails.vim
+      etc.
+</code></pre>
+
+<p>Two strategies are worth considering. First, you could store all your Vim-related files in your home's <code>~/bin</code> directory, then symlink them to their spots in your home directory.</p>
+
+<pre><code>$ ln -nfs ~/bin/dotfiles/vimrc ~/.vimrc
+</code></pre>
+
+<p>Or, you could keep them all in the <code>~/.vim</code> directory and symlink the <code>vimrc</code> and <code>gvimrc</code> to their proper locations.</p>
+
+<pre><code>$ ln -nfs ~/.vim/vimrc ~/.vimrc
+</code></pre>
+
+<p>However you do it, you should make a habit of checking files in regularly and pushing them to a server. Not only will it give you an instant backup, but you'll be able to clone them to any new machine you work on.</p>
+
+<h2>Options</h2>
+
+<p>Before creating configuration files, let's look at a few conventions.</p>
+
+<p>Vim has many options which can be queried, set, or reset with the same pattern.  The <code>list</code> option shows tabs and end-of-line characters. It is a boolean.</p>
+
+<pre><code>:set list          " turn on
+:set nolist        " turn off
+:set list?         " show value
+:set list&amp;         " reset to the default value
+</code></pre>
+
+<p>Options with numeric or string values such as <code>softtabstop</code> work similarly. This option sets the number of spaces to insert for a <code>&lt;Tab&gt;</code>:</p>
+
+<pre><code>:set softtabstop=2     " set value
+:set softtabstop       " show value
+:set softtabstop?      " show value
+:set softtabstop&amp;      " reset to the default value
+</code></pre>
+
+<p>Experienced Vim users don't type out <code>softtabstop</code>: that's not efficient. They use abbreviations such as <code>sts</code>.  Almost every option name has a short form which you can use wherever you would use the full name.</p>
+
+<p>One of the most frustrating parts of any configuration system is figuring out which file was responsible for setting the current value of an option. Perhaps a plugin is overriding the value and you need to find the culprit.  Using the <code>verbose</code> command when querying an option's value will tell you where it was set. </p>
+
+<p>The only caveat is if the option was set by hand or hasn't yet been set. In those cases, there won't be a "Last set" message.</p>
+
+<pre><code>:verbose set list?
+</code></pre>
+
+<p>You might be wondering how you know what options are available.  Typing <code>:options</code> will bring up Vim's options screen, which shows all the options, grouped by area.  You can see every option's name, short name, brief description, and current value.  You can easily jump to an option's documentation or update its value on the spot.</p>
+
+<p>You can also see all options differing from their default values with <code>:set</code>.</p>
+
+<h2>Files</h2>
+
+<p>Vim configuration files are simple sequences of commands just as you would run them in a live session -- just omit the colon.</p>
+
+<p>Vim will read your configuration files at startup.  We've provided a simple one for you in the code download at PeepCode.  Move it to <code>~/.vimrc</code> on Mac OS X and Unix or `$HOME/_vimrc' on Windows.</p>
+
+<p>If you're running Vim in a graphical application outside a terminal (such as MacVim or gVim) you can configure graphical options in a <code>.gvimrc</code> or <code>_gvimrc</code> file.  We've provided one of those, too.</p>
+
+<p>Finally, you can configure Vim on a per-document basis using modelines.  These look like this.</p>
+
+<pre><code>vi:noai:sw=3 ts=6
+/* vim: set ai tw=75: */
+</code></pre>
+
+<p>They must come within the first or last five lines (configured by the <code>modelines</code> option) of a document.  Typically you would use modelines for one-off files where it's not worth defining a whole new file type.</p>
+
+<h2>File type detection</h2>
+
+<p>Whenever you open a file, Vim tries to work out what kind of code it contains and set itself up appropriately.  If you open a Ruby file, Vim sets the <code>shiftwidth</code> to 2 spaces; opening an HTML file will set the <code>shiftwidth</code> to 4 spaces.</p>
+
+<p>File types can have syntax highlighting rules, indentation rules, and plugins which set up more complicated behaviour.  You can alter or add to the behaviour of any of the 500 or so predefined file types, or define new ones of your own.</p>
+
+<p>Type <code>:help filetype</code> to get the full details.</p>
+
+<p>As a quick example, let's update Vim's HAML support.  Tim Pope maintains the <a href="http://github.com/tpope/vim-haml">HAML files on GitHub</a>, so clone the repository and copy them into your local Vim configuration directory.</p>
+
+<pre><code>$ git clone git://github.com/tpope/vim-haml.git
+$ cd vim-haml
+$ mkdir -p ~/.vim
+$ cp -r * ~/.vim
+</code></pre>
+
+<p>Quit Vim and restart it to pick up the new files.</p>
+
+<p>How do these HAML files work?  In the <code>ftdetect</code> directory it stores the logic for detecting HAML and SASS files.  In the <code>ftplugin</code> directory it stores the commands to execute when a HAML or SASS file is detected.  Finally the <code>indent</code> and <code>syntax</code> directories contain the indentation and syntax definition rules.</p>
+
+<h2>Colour schemes</h2>
+
+<p>Syntax definition files tell Vim about the features of a language or template: comments, keywords, variables.  </p>
+
+<p>Colour schemes describe how these elements should look.  Vim ships with a few, or you can add your own.  A popular scheme is Vivid Chalk, which not entirely coincidentally looks like a certain Mac OS X editor's Vibrant Ink scheme.  To install it, create a <code>colors</code> directory in your <code>~/.vim</code> directory and copy the <code>vividchalk.vim</code> file to it.</p>
+
+<pre><code>$ mkdir -p ~/.vim/colors
+$ cd ~/.vim/colors
+$ curl -O http://github.com/tpope/vim-vividchalk/raw/master/colors/vividchalk.vim
+</code></pre>
+
+<p>You can sample it by issuing the <code>:colorscheme vividchalk</code> directive interactively, or put the same command in your <code>.vimrc</code> without the colon.</p>
+
+<pre><code>Lower Third: See some color schemes at http://vimcolorschemetest.googlecode.com/svn/html/index-pl.html
+</code></pre>
+
+<p>Now is a good time to copy the example configuration files into your home directory if you haven't already.  Next we'll look at an area where most text editors are awful: navigating files and directories.</p>

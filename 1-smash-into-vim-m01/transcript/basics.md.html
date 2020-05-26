@@ -1,0 +1,267 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Basics</h1>
+
+<p>Let's start by taking a tour through the bare essentials of Vim. </p>
+
+<p>Vim is often the only decent editor available on remote servers or shared hosts.  By the end of this chapter, you'll know how to use Vim to make basic edits (which is sometimes all you need).</p>
+
+<p>In future chapters, we'll cover configuration and show you the skills needed to use Vim as your primary editor for development.</p>
+
+<p>We'll assume the Vim on your server is au naturel; that you have not configured or customised it at all. This means we'll configure some basics as we go along; later on we'll build a comprehensive configuration file.</p>
+
+<h2>A real-life example</h2>
+
+<p>Our task in this chapter will be to add a server alias to our web site's virtual host in Apache. If you want to follow along, you can edit a similar file from the code download at PeepCode.</p>
+
+<pre><code>$ ssh hal.example.com
+[hal]$
+</code></pre>
+
+<p>We'll cover file browsing later but for now the easiest way to edit a file is to type <code>vim -N filename</code>:</p>
+
+<pre><code>[hal]$ cd /etc/httpd/conf/apps
+[hal]$ vim -N example.conf
+</code></pre>
+
+<p>This brings up Vim in the console with <code>example.conf</code>.  The <code>-N</code> argument is rather important and means not compatible with Vi.  Vim can run in two ways: compatible with Vi, which is pretty limited, or not compatible, which is the whole point of using Vim instead of Vi.  Vim starts up in compatible mode unless you have configured it in a <code>.vimrc</code> file or have instructed it not to with <code>-N</code>.</p>
+
+<p>So what are we looking at?</p>
+
+<p>Any space between the end of the file and the bottom of the console is marked with tildes in the first column.  The cursor (top left) is a block because you start off in Normal mode.</p>
+
+<p>Vim comes with syntax highlighting for over 500 filetypes.  If you're looking at a mass of black or white text, it's because your Vim hasn't been configured to deduce the syntax automatically.  For now we'll set a few variables to tell it we want syntax highlighting, and this is an Apache file:</p>
+
+<pre><code>:syntax enable
+:set syntax=apache
+</code></pre>
+
+<p>We'll also tell Vim to handle multiple files better with the mysterious <code>hidden</code> option:</p>
+
+<pre><code>:set hidden
+</code></pre>
+
+<p>The colon feeds long-form commands into Vim; as you type you'll see them in a line of text at the bottom of the window. In future chapters you'll learn how to set personal shortcuts for commonly-used commands.</p>
+
+<p>The top of the file looks like this:</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+  ServerName example.com
+  DocumentRoot /var/www/apps/example/current/public
+</code></pre>
+
+<p>We want to add <code>ServerAlias www.example.com</code> just below the <code>ServerName</code> line.  The most basic way to do this is with this sequence:</p>
+
+<pre><code>jo  ServerAlias www.example.com&lt;Esc&gt;
+</code></pre>
+
+<p><code>j</code> moves the cursor down one line, <code>o</code> opens a new line below the current line, ready for new text. <code>&lt;Esc&gt;</code> re-activates Normal mode.</p>
+
+<p>It's been said several times that Vim is all about efficiency. It's not very efficient to retype words that are already in the document!</p>
+
+<p>Here's a more efficient series of steps such as would be performed by an experienced Vim user. Press <code>u</code> a few times to undo each change you just made.  We'll copy the <code>ServerName</code> line and tweak it.  First the copy:</p>
+
+<pre><code>jyyp
+</code></pre>
+
+<p><code>yy</code> copies (or yanks) the current line, and <code>p</code> pastes below the current line (capital <code>P</code> pastes <em>above</em> the current line).  Alternately, you could use capital <code>Y</code> instead of lowercase <code>yy</code>.</p>
+
+<p>Second, tweak it.  Change the whole word <code>ServerName</code> to <code>ServerAlias</code>:</p>
+
+<pre><code>cwServerAlias&lt;Esc&gt;
+</code></pre>
+
+<p>Or we could move the cursor to the <code>N</code> and change from there to the end of the word.  Here are three ways to move from the <code>S</code> to the <code>N</code>. You could move forward one letter at a time. You could prefix the motion command with the number six. Or you could jump forward to the next instance of "N".</p>
+
+<pre><code>llllll      # move right one character at a time, six times
+6l          # use a count of 6 with the motion command
+fN          # jump forward to N
+</code></pre>
+
+<p>Now that the cursor is on <code>N</code>, the text up until the end of the word can be easily changed:</p>
+
+<pre><code>ceAlias&lt;Esc&gt;
+</code></pre>
+
+<p>Finally, we need to prefix <code>www.</code> onto <code>example.com</code>.  Here are two ways to do this. Move forward one letter and append text. Or jump to the next word and insert text.</p>
+
+<pre><code>lawww.&lt;Esc&gt;    # move right one character, append text (i.e. insert just after cursor position)
+wiwww.&lt;Esc&gt;    # jump to start of next word, insert text (i.e. just before cursor position)
+</code></pre>
+
+<p>Excellent!  We've added our server alias.  Let's save (or <em>write</em>) the file:</p>
+
+<pre><code>:w
+</code></pre>
+
+<p>If the file is read-only, Vim will complain. Here are three ways to get around that.</p>
+
+<p>You could use <code>:w!</code> (colon w exclamation mark) to override the read-only flag without confirmation.</p>
+
+<p>But if you don't have permission to write the file, you could write the file somewhere else and copy it back.</p>
+
+<pre><code>:wq ~/example.conf    # write and quit
+$ sudo cp ~/example.conf .
+</code></pre>
+
+<p>However, we're professionals so let's use the Unix sudo/tee idiom. (Note the space after the <code>w</code> and before the <code>!</code>.)</p>
+
+<pre><code>:w !sudo tee %
+</code></pre>
+
+<p>The <code>!</code> executes a shell command and <code>%</code> expands to the current file name.  So this writes the file with sudo privileges.</p>
+
+<h2>Quick summary</h2>
+
+<p>What have we seen so far?</p>
+
+<p>Basic motion.</p>
+
+<pre><code>  k
+h   l
+  j
+</code></pre>
+
+<p>Using a count with a motion command.</p>
+
+<pre><code>6l  Forward 6 letters
+2j  Down 2 lines
+</code></pre>
+
+<p>Copying or yanking a line: </p>
+
+<pre><code>yy or Y  Copy a line
+</code></pre>
+
+<p>Pasting below or above the cursor position.</p>
+
+<pre><code>p paste below
+P paste above
+</code></pre>
+
+<p>Inserting text before the cursor position, and appending after.</p>
+
+<pre><code>i insert before the cursor
+a append after
+</code></pre>
+
+<p>Jumping forward to a given character on the current line.</p>
+
+<pre><code>fN   Jump forward to "N"
+3fN  Jump forward to third "N"
+</code></pre>
+
+<p>Jumping forward one or more words.</p>
+
+<pre><code>w    Jump forward one word
+3w   Jump forward three words
+</code></pre>
+
+<p>Changing one or more words.</p>
+
+<pre><code>cw          Change one word (and go to insert mode)
+3cw or c3w  Change three words
+</code></pre>
+
+<p>Undo and redo.</p>
+
+<pre><code>u                   Undo
+&lt;Ctrl&gt;-R or :redo   Redo
+</code></pre>
+
+<p>Writing a file.</p>
+
+<pre><code>:w   Write
+:w!  Overwrite without confirmation
+</code></pre>
+
+<p>Quitting.</p>
+
+<pre><code>:q
+</code></pre>

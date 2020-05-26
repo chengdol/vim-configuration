@@ -1,0 +1,326 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Editing - Search</h1>
+
+<p>Search is not only a useful way to find code, it's also a great way to navigate. Users of graphical text editors use the Find dialog infrequently, but efficient Vim users employ it often.</p>
+
+<p>Vim veteran Eric Hodel reports that he navigates by search more often than he uses the home row keys. Let's look at how that's done.</p>
+
+<h2>Searching</h2>
+
+<p>You can search forward from the cursor with <code>/</code> and backward with <code>?</code></p>
+
+<pre><code>/foo
+?bar
+</code></pre>
+
+<p>Hit <code>ENTER</code> to lock in the search, then jump from one match to the next with <code>n</code> or capital <code>N</code> to jump in the opposite direction. The direction depends on which operator you used to start the search.</p>
+
+<p>If your cursor is on the word you want to search for, it's even easier: type <code>*</code> to search forward for the current word or <code>#</code> to search backward.  These will only match whole words; to find matches as part of a larger word, use <code>g*</code> and <code>g#</code>.</p>
+
+<p>You can offset your search to find lines before or after matching lines.  To do this, delimit your pattern with <code>/</code> or <code>?</code> and add a signed count such as <code>+3</code> or <code>-7</code>; the default is "1". So to put the cursor on the line after a section heading, type <code>/&lt;h1&gt;/+</code>.</p>
+
+<pre><code>?bacon?-3
+</code></pre>
+
+<p>Sometimes you want to offset by characters, not lines.  Since you'll usually offset from the end of a match, you simply prefix the offset count with <code>e</code>. <code>/Section/e</code> puts the cursor on the last character of <code>Section</code>.</p>
+
+<pre><code>/Section/e+3
+</code></pre>
+
+<p>Search on its own is moderately useful. A search combined with other commands becomes massively useful. You can use search to replace text, extend selections in Visual mode, execute commands, or specify ranges to operate on.</p>
+
+<p>Delete the text from the current point to the end of the next occurrence of "bacon":</p>
+
+<pre><code>d/bacon/e&lt;Enter&gt;
+</code></pre>
+
+<p>Yank (that is, copy) the text from the current point to the previous "def":</p>
+
+<pre><code>y?def&lt;Enter&gt;
+</code></pre>
+
+<p>You won't find more efficient descriptions of editing actions in any other text editor!</p>
+
+<h2>Search and replace (a.k.a. substitution)</h2>
+
+<p>Vim's search and replace is not too different from plain searching.  Use the <code>substitute</code> command, or <code>s</code> for short:</p>
+
+<pre><code>:[range]s[ubstitute]/{pattern}/{string}/[flags] [count]
+</code></pre>
+
+<p>Let's replace <code>bacon</code> with <code>lettuce</code> everywhere in the current buffer:</p>
+
+<pre><code>:%s/bacon/lettuce/
+</code></pre>
+
+<p>By default this will replace only the first occurrence of <code>bacon</code> in each matching line.  Use the <code>g</code> flag to replace every occurence in each matching line.</p>
+
+<p>Other flags you'll find useful are:</p>
+
+<ul>
+<li><code>c</code> asks you to confirm or skip each match</li>
+<li><code>i</code> will ignore case, and <code>I</code> will heed case; these override any defaults you may have configured.</li>
+<li><code>n</code> reports the number of matches without actually making any changes</li>
+<li><code>p</code> and <code>#</code> print the matching lines. A better way to accomplish this task is with the <code>global</code> command which will be explained later in this chapter.</li>
+</ul>
+
+<p>If you don't need to provide any flags, you can omit the trailing slash.</p>
+
+<pre><code>:%s/bacon/lettuce
+</code></pre>
+
+<p>If you leave out the initial pattern, Vim will reuse the pattern from the last substitution or global search.</p>
+
+<pre><code>:%s//lettuce/
+</code></pre>
+
+<p>If you leave out the replacement string, Vim will treat it as an empty string which has the effect of deleting the pattern, so be careful!</p>
+
+<pre><code>:%s/bacon
+</code></pre>
+
+<p>Most often, you'll perform replacements on either the current line or the entire file. Percent (<code>%</code>) is a shortcut for all lines in the current buffer, so replacements will happen over the entire file. To change only the current line, leave out the range.</p>
+
+<pre><code>:s/bacon/lettuce
+</code></pre>
+
+<p>Or, you can specify an exact range of lines within which to work.</p>
+
+<p>First I'll show you a full-featured example, then provide the explanation. This sequence replaces occurrences from the current line to the <code>a</code> mark.</p>
+
+<pre><code>:.,'a s/bacon/lettuce
+</code></pre>
+
+<p>Search ranges work with lines, not characters. They are a way to specify one or more lines, separated by commas or joined by semi-colons.  Here's how to specify a line:</p>
+
+<pre><code>.           " current line
++5          " Five lines down
+-3          " Three lines back
+1           " line 1 of buffer
+42          " line 42 of buffer
+$           " last line of buffer
+%           " all lines in buffer, i.e. 1,$
+'t          " position of mark t
+/pattern/   " next line where pattern matches
+?pattern?   " previous line where pattern matches
+</code></pre>
+
+<p>If you're feeling clever, you can chain searches with a semi-colon.  Suppose you want to specify a range covering the content of the first subsection of the next section.</p>
+
+<pre><code>/h1/;/h2/+,/h2/-
+</code></pre>
+
+<p>This says: </p>
+
+<ul>
+<li>First find the next <code>h1</code></li>
+<li>From there, find the first <code>h2</code></li>
+<li>Go one line further on -- that's the start of the range.  </li>
+<li>The end of the range is the line before the next <code>h2</code>.  </li>
+</ul>
+
+<p>It's easy when you know how! </p>
+
+<p>The optional <code>count</code> at the end is rarely used and only works if you don't provide a range at the beginning. It will perform the substitution only over the next number of lines. This example replaces all occurrences of "bacon" within the next 10 lines only.</p>
+
+<pre><code>:s/bacon/lettuce/g10
+</code></pre>
+
+<p>Some people find it easier to see the range in Visual mode. </p>
+
+<ul>
+<li>Hit <code>v</code> to go into visual mode. Any navigation commands will move the cursor and extend the selected region. For example, <code>25G</code> takes you to line 25, or search for <code>/bacon</code> to move the cursor to the next occurrence. </li>
+<li>Use <code>o</code> to move the other end of the region and reposition the cursor, if needed.</li>
+<li>Now type a substitution command as before, starting with a colon. Vim gives you the range specifier <code>'&lt;,'&gt;</code>, which represents the region you just selected visually. </li>
+<li>Enter a search pattern, replacement string, and optional flags as before. </li>
+<li>Hit <code>Enter</code> and you're done!</li>
+</ul>
+
+<p>...</p>
+
+<pre><code>:'&lt;,'&gt;s/bacon/lettuce/g
+
+Lower third: Vim ninjas skip ranges altogether by folding sections
+and performing replacements on the folded region
+</code></pre>
+
+<h2>Search and execute (a.k.a. global)</h2>
+
+<p>You can use Vim's powerful <code>global</code> command, or <code>g</code> for short, to execute a command on all lines that match a pattern.  It takes a form similar to search and replace:</p>
+
+<pre><code>:[range]g[lobal]/{pattern}/[cmd]
+</code></pre>
+
+<p>Unlike search, the default range is the whole buffer. Let's start by printing the line number and content of all lines that match a pattern. Use <code>p</code> to print, as we did before.</p>
+
+<pre><code>:g/bacon/p
+</code></pre>
+
+<p>This list is read-only, so you can't interact with it. Instead, use the standard navigation commands to jump to a line number mentioned in the report, such as <code>25G</code>.</p>
+
+<p>To show all lines matching the regular expression <code>re</code>, type <code>:g/re/p</code>.  Look familiar?  This is where Unix's <code>grep</code> command got its name.</p>
+
+<p>The commands you'll use most often are <code>#</code> to show the matches with line numbers, <code>y</code> to yank (or copy) the matching lines, and <code>d</code> to delete them.  Here are a few examples:</p>
+
+<pre><code>:g/params[:foo]/#  " show lines and line numbers where params[:foo] occurs
+:g/^$/d            " delete all blank lines
+:g/pattern/+ y     " yank the line after the line matching pattern
+</code></pre>
+
+<p>You can also execute the command against lines in the range which <em>don't</em> match the pattern. Use <code>v</code> instead of <code>g</code>.</p>
+
+<p>Here are some examples with ranges:</p>
+
+<pre><code>:.,+10g/foo/d    " delete lines matching foo from current line to ten lines down
+:.,'f+2g/foo/#   " show numbers of lines matching foo from current line to two lines after mark f
+:.,/bar/g/foo/d  " delete lines matching foo from current line to next line matching bar
+</code></pre>
+
+<p>The commands you can execute aren't restricted to deleting and yanking.  You can also execute normal-mode commands by prefixing your command with <code>normal</code>.</p>
+
+<pre><code>:g/re/normal {command}
+</code></pre>
+
+<p>For example, this adds a new line before each line that contains <code>bacon</code>:</p>
+
+<pre><code>:g/bacon/normal O&lt;new line of text&gt;
+</code></pre>
+
+<h2>Regular expressions</h2>
+
+<p>So far we haven't talked about the regular expressions Vim uses in its search, global and substitute commands.  This is one of those areas where Vim's default behaviour is inconsistent and confusing, but with a slight tweak it all behaves nicely again -- and gives you a lot of powerful features as well.</p>
+
+<p>In a regular expression, some characters are literal and some are special.  Vim allows you to alter which are which with an option called <code>magic</code>.  This has four levels: "very magic" (<code>\v</code>), "magic" (<code>\m</code>), "nomagic" (<code>\M</code>), and "very nomagic" (<code>\V</code>).  </p>
+
+<p>You'll invariably want "very magic", which is similar to Perl's regular expression syntax as used in most scripting languages, or grep's patterns. Unfortunately, the default is "magic". Even worse, you can't set this option in your <code>.vimrc</code>.  Technically, you can, but Vim's documentation warns against it.  So you'll need to set it in each and every pattern you write.</p>
+
+<p>You may be wondering how "very magic" and "magic" differ. The most significant difference is in which characters need to be escaped with a backslash.</p>
+
+<pre><code>Very magic    Magic     Description
+\s            \s        whitespace character; this is the same
+( )           \( \)     grouping; in "magic" you escape both brackets
+{n,m}         \{n,m}    quantifiers; in "magic" you escape the opening brace
+[ ]           [ ]       character range; in "magic" you don't escape either square bracket
+*             *         0 or many; in "magic" you don't escape the quantifier
++             \+        1 or many; in "magic" you do escape the quantifier
+=             \=        0 or 1; not ?
+</code></pre>
+
+<p>So basically, "very magic" corresponds to Unix's egrep and "magic" to grep.  "Magic" uses lots of backslashes inconsistently; it's a disaster.</p>
+
+<p>In "very magic" the only literal characters are <code>0-9</code>, <code>a-z</code>, <code>A-Z</code>, and <code>_</code>.  It's consistent.  So how do you use it?  Turn it on in a pattern with <code>\v</code>.  To show you what I mean, here are two ways to search:</p>
+
+<pre><code>Search for "syzygy":
+/\(.y\)\{3}        " magic
+/\v(.y){3}         " very magic
+</code></pre>
+
+<p>Figuring out the exact pattern can be tricky.  A nifty technique is first to perfect your pattern as a search (<code>/\vpattern</code>) with incremental highlighting turned on, so you see your matches in real time as you tweak it. If you're using the <code>.vimrc</code> provided with this screencast, you'll be good to go.</p>
+
+<p>Vim stores the last search pattern in the <code>/</code> register, so once you've nailed the pattern you can paste it into your command line with <code>&lt;CTRL-R&gt;/</code>.  In command-line mode, <code>&lt;CTRL-R&gt;</code> inserts the contents of the given register.</p>
+
+<h2>Using Ack</h2>
+
+<p>If you want to search through a codebase, you'll need some kind of grep program.  Vim has a built-in grep -- vimgrep -- which can search compressed files with Vim search patterns.  But it's tedious to use because you always have to tell it which files to search.</p>
+
+<p>Instead I recommend having Vim use <a href="http://betterthangrep.com">ack</a>, a grep replacement designed for programmers searching codebases.  Grab the <a href="http://github.com/mileszs/ack.vim">ack.vim</a> plugin and follow the installation instructions.</p>
+
+<p>You can search all files below your working directory with the <code>Ack</code> command:</p>
+
+<pre><code>:Ack current_user
+</code></pre>
+
+<p>Search results are shown in the Quickfix window, which you can initially navigate with arrow keys and <code>&lt;Enter&gt;</code>, or with these commands:</p>
+
+<pre><code>:cn      " next result
+:cp      " previous result
+:cc3     " display 3rd result
+:ccl     " close the Quickfix window
+</code></pre>

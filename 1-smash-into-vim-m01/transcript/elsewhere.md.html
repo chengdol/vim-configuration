@@ -1,0 +1,106 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Using Vim elsewhere</h1>
+
+<p>Once you've gotten used to using Vim, you'll wish you could use its motions elsewhere.  When we talked about installation, we mentioned configuring your shell to use Vim as its <code>EDITOR</code>.  You can also tell it you want to use Vim keybindings like this:</p>
+
+<pre><code># In your ~/.inputrc
+set editing-mode vi
+
+# In your ~/.editrc
+bind -v
+</code></pre>
+
+<p>This should spread the good news beyond your shell to readline, the mysql client, irb, and so on.</p>
+
+<p>Terminal Vim also works very well with Screen.  We won't talk about it here, but if you like one you'll probably like the other.</p>
+
+<p>MacVim provides a few OS X system services, and can also act as an external editor for OS X apps which support the ODB Editor Protocol, such as Mail.app.</p>
+
+<p>Finally, <a href="http://github.com/philc/vimium">Vimium</a> is a Chrome extension which gives you a lot of Vim keybindings for navigating the browser page, manipulating tabs, and jumping through your browsing history.  It also supports command repetition and mappings.  It's well worth taking for a spin.</p>

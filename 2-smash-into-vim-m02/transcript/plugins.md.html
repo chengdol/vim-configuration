@@ -1,0 +1,308 @@
+<style>body {
+    font-size: 20px;
+    width: 36em;
+    margin: 1em;
+    background-color: #f4eed9;
+}
+
+body, h1, h2, h3, h4, p {
+    line-height: 1.5em;
+}
+
+body, p {
+    font-family: Feijoa, Georgia, serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+    background-image: url(images/notch.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div.todo, div.demo, div.note {
+    font-family: "Myriad Pro", Verdana;
+    font-size: 0.8em;
+    padding: 0.5em 1em 0.5em 4em;
+    text-indent: -3em;
+
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    box-shadow: 1px 1px 1px #d7d1bf;
+    -moz-box-shadow: 1px 1px 1px #d7d1bf;
+    -webkit-box-shadow: 1px 1px 1px #d7d1bf;
+}
+
+div.todo { background-color: #ffcccc; }
+div.demo { background-color: white; }
+div.note { background-color: #ccccff; }
+
+
+div.todo strong, div.demo strong, div.note strong {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 0.7em;
+    padding-right: 1em;
+}
+
+pre, code {
+    background-color: #eee;
+}
+pre {
+    padding: 1em;
+}
+
+.sidenote {
+    font-decoration: italic;
+    margin-left: 12px;
+    border: solid 1px #888;
+    background-color: #ddd;
+}
+
+span.caps {
+    font-size: 0.9em;
+}
+
+
+/* DARK */
+/* body { */
+/*     background-color: #444; */
+/* } */
+/* a, a:link { */
+/*     color: #ffffcc; */
+/* } */
+/* a:visited { */
+/*     color: #999966; */
+/* } */
+/* pre, code { */
+/*     background-color: #555; */
+/* } */
+/* h1, h2, h3, h4, h5, p { */
+/*     color: #f3f3f3; */
+/* } */
+</style>
+<h1>Plugins</h1>
+
+<p>Vim can be extended with plugins, which are simply Vim scripts loaded automatically when Vim starts.</p>
+
+<p>There are two kinds of plugin: global -- used for all files -- and filetype -- used for a specific type of file.  Vim uses plugins internally for many built-in features.  The default file explorer, for example, is the <code>netrw</code> plugin.</p>
+
+<p>Almost all Vim plugins are released in the <a href="http://www.vim.org/scripts/index.php">Scripts section of vim.org</a>, but you'll have to search elsewhere to follow their day to day development.</p>
+
+<p>As we noted earlier, Vim doesn't provide any way to specify which versions of dependencies to use.  Most plugins are self-contained so this generally doesn't matter, but if you do experience version conflicts you'll have to resolve them yourself.</p>
+
+<h2>Installation</h2>
+
+<p>Standard plugin installation involves copying plugin files to separate directories in your <code>.vim</code> directory. But it can be even easier with Tim Pope's <code>pathogen</code> plugin, which we'll demonstrate shortly.</p>
+
+<p>Most plugins are distributed as zip files, so you just unzip them and copy their contents into your <code>~/.vim</code> directory. This usually means the <code>autoload</code>, <code>plugin</code>, and <code>doc</code> subdirectories. It seems simple enough, but becomes tedious to do every time, and it's awkward to update a plugin when its files are scattered across 2 or 3 directories.</p>
+
+<p>One semi-solution is the <code>vimball</code>, distributed as single files ending in <code>.vba</code>. But few plugins are available as vimballs, and some experienced Vim users find them to be unmaintainable.</p>
+
+<p>Prolific plugin author Tim Pope has created a simple solution that works so well, one wonders why it isn't part of Vim itself. It's called <a href="http://github.com/tpope/vim-pathogen/">pathogen</a>.</p>
+
+<p>Here's how it works:</p>
+
+<ul>
+<li>Copy <code>pathogen.vim</code> to the <code>~/.vim/autoload</code> directory (create the directory if needed).</li>
+<li><p>Add this line to the top of your <code>.vimrc</code></p>
+
+<p>silent! call pathogen#runtime<em>append</em>all_bundles()</p></li>
+<li><p>Finally, create a <code>bundle</code> directory in your <code>.vim</code> directory.</p></li>
+</ul>
+
+<p>Now you can unpack self-contained Vim plugins to the <code>bundle</code> directory. Each will contain their own <code>doc</code>, <code>plugin</code> and other directories.</p>
+
+<p>This works great with source code management systems. For example, if you want to install Rein Henrich's <a href="http://github.com/reinh/vim-makegreen">make green</a> plugin for running unit tests, just clone the repository into your <code>~/.vim/bundle</code> directory.</p>
+
+<pre><code>Demo of cloning to the bundle directory
+</code></pre>
+
+<p>Generate the plugin's documentation with <code>call pathogen#helptags()</code>.</p>
+
+<pre><code>:call pathogen#helptags()
+</code></pre>
+
+<p>Pathogen also comes with other methods. Use tab complete to see them.</p>
+
+<pre><code>Demo of :call path&lt;Tab&gt;
+</code></pre>
+
+<p>Some plugins require additional configuration which is usually documented on the site where you originally downloaded the plugin. To use "make green" more smoothly with Ruby projects tested with RSpec, add this line to the bottom of your <code>.vimrc</code>:</p>
+
+<pre><code>autocmd BufNewFile,BufRead *_spec.rb compiler rspec
+</code></pre>
+
+<p>Restart Vim, then you can run a file of specs with <code>\t</code>. Or, customize it to use your own choice of keyboard shortcut.</p>
+
+<pre><code>map &lt;Leader&gt;] &lt;Plug&gt;MakeGreen " change from &lt;Leader&gt;t to &lt;Leader&gt;]
+</code></pre>
+
+<p>A good way to get a head start is to try out another developer's bundle directory. Rein publishes his as a repository with several submodules. Clone it, update the submodules, and copy them to your own <code>bundle</code> directory.</p>
+
+<pre><code>http://github.com/reinh/dotvim/tree/master/bundle/
+git clone git://github.com/reinh/dotvim.git
+git submodule init
+git submodule update
+cp -r bundle/* ~/.vim/bundle
+</code></pre>
+
+<p>Ben Bleything posted a Ruby <code>Rakefile</code> that fetches and updates plugins to pathogen's <code>bundle</code> directory automatically, and could be a good starting point for building your own similar script.</p>
+
+<pre><code>http://github.com/bleything/dotvim/blob/master/Rakefile
+</code></pre>
+
+<h2>Uninstallation</h2>
+
+<p>If you use <code>pathogen</code>, uninstallation is as easy as deleting the plugin's directory from your <code>bundle</code> directory.</p>
+
+<h2>Recommendations</h2>
+
+<p>Here are a few recommendations based on our preferences and the languages we code in.  You'll almost certainly find other plugins, but these should get you started.</p>
+
+<h3>Tim Pope</h3>
+
+<p>Tim Pope is a prolific plugin author and is well known among Ruby developers. His plugins solve many problems, but not all Vim users agree that they solve them in the way they prefer. Give these a shot and see what you think.</p>
+
+<p>We already mentioned his <code>pathogen</code> meta-plugin for managing plugins. Even if you don't use anything else from Tim Pope, we highly recommend <code>pathogen</code>.</p>
+
+<pre><code>http://github.com/tpope
+</code></pre>
+
+<h4>Git &amp; Fugitive</h4>
+
+<p>Tim publishes both a <a href="http://www.vim.org/scripts/script.php?script_id=1654">git</a> plugin that's useful for interacting with Git via Terminal Vim. Or, try his <a href="http://www.vim.org/scripts/script.php?script_id=2975">fugitive</a> plugin for slightly higher level control of Git.</p>
+
+<p>You'll need both plugins, so install <code>vim-git</code> and <code>vim-fugitive</code> into your <code>bundle</code> directory. For help, see <code>:h fugitive</code>, but here's a simple usage scenario. </p>
+
+<p>Navigate to a file that's part of an existing Git repository. In Normal mode, type <code>:Gstatus</code> and hit Enter to see the standard Git status screen.</p>
+
+<pre><code>Lower Third: Also use fugitive#statusline() in the statusline
+</code></pre>
+
+<p>Here's a tip useful anywhere in Vim: Tab completion of commands is smart enough to find the proper case. Type ":gst" (colon lowercase gst) and hit "Tab". Vim will switch the "g" to uppercase and complete the command as "Gstatus".</p>
+
+<p>Navigate to a file's line and hit <code>-</code> to either stage the file or unstage a file that has already been staged. Or, hit Enter to edit that file.</p>
+
+<p>When you're ready, hit capital "C" or run <code>:Gcommit</code>. It will open a window for your commit message, though oddly <em>not</em> in Insert mode. Hit <code>i</code> and type your message. Save it normally with <code>:wq</code>.</p>
+
+<p>At any point, you can type <code>:q</code> to exit the Git status window.</p>
+
+<p>You can also execute any Git command with <code>:Git</code>, including any arguments or flags you would normally use on the command line. So <code>:Git push</code> or <code>:Git pull</code> will work normally.</p>
+
+<h4>Surround</h4>
+
+<p>The <a href="http://www.vim.org/scripts/script.php?script_id=1697">surround</a> plugin adds mappings to easily add, change, and remove parentheses, brackets, quotes, tags, and any other element that wraps text.</p>
+
+<p>Here's an example. Open an XML file, such as the ATOM feed for the PeepCode Blog.</p>
+
+<pre><code>wget http://blog.peepcode.com/articles.xml
+</code></pre>
+
+<p>Navigate to the <code>id</code> line. Let's change the <code>id</code> tag to a <code>div</code> in Normal mode with <code>cst</code> which stands for "change surround tag". Type <code>&lt;div&gt;</code> and the outer tag will be changed as soon as you type the closing angle bracket.</p>
+
+<p>Now let's delete that altogether. <code>dst</code> deletes the <code>&lt;div&gt;</code> tag...think "delete surround tag".</p>
+
+<p>Finally, let's add the <code>id</code> tag in three different ways. First, hit capital <code>V</code> to go into visual mode, but operate on full lines. Capital <code>S</code> queues up a surround command. Type <code>id</code> in angle brackets. Immediately after typing the last angle bracket, Vim wraps the text in the <code>&lt;id&gt;</code> tag.</p>
+
+<pre><code>&lt;id&gt;
+    tag:blog.peepcode.com,2009:/
+&lt;id&gt;
+</code></pre>
+
+<p>But that doesn't look exactly like it did at first. Let's try another visual approach to recreate the original tag exactly. Go into Normal mode and undo with <code>:u</code>.</p>
+
+<p>Navigate to the "t" at the start of the line. Go into in Visual mode, but this time use lowercase <code>v</code> to work with characters, not lines. Go to the end of the line with <code>$</code> and back one character with <code>h</code>. Now go into surround mode with capital "S". Finally, type <code>&lt;id&gt;</code> and the text will be wrapped in the tag.</p>
+
+<pre><code>&lt;id&gt;tag:blog.peepcode.com,2009:/&lt;id&gt;
+</code></pre>
+
+<p>Or for a third, final, attack, you can perform this whole task in Normal mode. Undo with <code>:u</code>. Navigate anywhere within the text. Type <code>yss</code> to wrap the entire line with new content. Type <code>&lt;id&gt;</code> and the line will be wrapped, again, in the "id" tag.</p>
+
+<p>So the <code>surround</code> plugin makes tag editing much easier. But it isn't limited to only XML tags. In fact, it's very useful for working with single characters like brackets and quotes. See <code>:h surround</code> for more documentation.</p>
+
+<pre><code>Lower Third: Run :call pathogen#helptags() if you don't see the help docs
+</code></pre>
+
+<h4>Ragtag</h4>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=1896">Ragtag</a> goes even further than the surround plugin by providing functionality for editing tags in templates including HTML, XML, Ruby's ERB, JSP, PHP, and other template languages.</p>
+
+<p>Here's a brief Ruby example. Open an ERB file. Start with a word such as "bacon." While in Insert mode, hit <code>Control-x</code>, then <code>+</code>. The word will be nested inside a printing tag. You can also execute the same sequence without any text and you'll get a blank tag.</p>
+
+<p>Or, insert a non-printing tag with <code>Control-x</code> and <code>_</code> (underscore).</p>
+
+<p>As a final example, go to a new line and type a "p". Hit <code>Control-x</code> and hit the spacebar. The text becomes a tag and your cursor is positioned to enter the content.</p>
+
+<pre><code>Tip: Beware of C-SPACE, which activates the rails.vim autocomplete menu.
+</code></pre>
+
+<p>Ragtag has many other features. See the documentation with <code>:h ragtag</code>.</p>
+
+<h4>Endwise</h4>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=2386">Endwise</a> adds <code>end</code> for you in Ruby, VimScript, and, ahem...Visual Basic.</p>
+
+<p>It couldn't be simpler. Just start typing and if an 'end' should be there, the plugin inserts it for you when you hit <code>Enter</code>.</p>
+
+<p>No help documents are provided.</p>
+
+<h4>Rails</h4>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=1567">Rails.vim</a> is indispensable for writing Ruby on Rails web applications.</p>
+
+<p>Jump between files in several ways. If your cursor is over a class name such as <code>User</code>, hit the standard <code>gf</code> to jump to the file containing the file for that model.</p>
+
+<p>Or explicitly jump to associated files with <code>:Rcontroller</code>, <code>:Rmodel</code>, or `:Rview'.</p>
+
+<p>Run <code>rake</code> tasks with <code>:Rake</code>.</p>
+
+<p>The plugin also includes other features for extracting templates and auto-completing associations. It is updated frequently and is used by many Rails developers.</p>
+
+<h3>Useful plugins by other authors</h3>
+
+<p>Snippets and comments are well covered by Vim plugins.</p>
+
+<h4>Snippets</h4>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=2540">snipMate</a> recreates TextMate's snippets in Vim.</p>
+
+<p>Snippets are stored in the plugin's directory under <code>snippets</code>. Open the file for a language to see examples. Preface placeholders with a dollar sign and optionally use curly braces with an order and a default value.</p>
+
+<p>To insert it, type the snippet's trigger and hit <code>TAB</code>. Fill in the values and continue hitting <code>TAB</code> until you reach the cursor's final resting spot.</p>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=1318">snippetsEmu</a> is another snippet plugin that's worth trying.</p>
+
+<h4>Comments</h4>
+
+<p><a href="http://www.vim.org/scripts/script.php?script_id=1173">tComment</a> is a plugin for working with comments. In some text editors, this functionality is built-in. In Vim, you have several plugins to choose from.</p>
+
+<p>The simplest way to use tComment is in Normal mode with variations of <code>gc</code>. Use <code>gc</code> followed by a motion command to toggle a comment on several lines, such as <code>gc3j</code> to toggle comments through the next three lines. Repeat to turn them off.</p>
+
+<pre><code>gc3j
+</code></pre>
+
+<p>Or use <code>gcc</code> to toggle comments on a single line.</p>
+
+<p>Visual mode works the same way. Start with capital <code>V</code> and select a region. Hit <code>gc</code> to toggle comments on the region.</p>
+
+<p>And of course, you can setup your own keyboard shortcuts.</p>
+
+<p>As an alternative, see the <a href="http://www.vim.org/scripts/script.php?script_id=1218">NERD Commenter</a> plugin.</p>
+
+<h3>Others</h3>
+
+<p>We already saw <a href="http://github.com/reinh/vim-makegreen">MakeGreen</a> with which you can run Ruby tests and see a green or red bar indicating the output of the test.</p>
+
+<pre><code>\t
+</code></pre>
+
+<p>And <a href="http://www.vim.org/scripts/script.php?script_id=2572">ack</a> provides useful searching functionality with the command-line <code>ack</code> program.</p>
+
+<pre><code>:Ack bacon
+</code></pre>
