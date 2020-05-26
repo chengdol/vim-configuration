@@ -3,9 +3,27 @@
 
 set nocompatible                  " Must come first because it changes other options.
 
-syntax enable                     " Turn on syntax highlighting.
-filetype plugin indent on         " Turn on file type detection.
+" vim-plug
+" https://github.com/junegunn/vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
+call plug#begin('~/.vim/plugged')
+" nerdtree
+" https://github.com/preservim/nerdtree
+Plug 'preservim/nerdtree'
+" fuzzy finder
+" https://github.com/junegunn/fzf#as-vim-plugin
+
+" installed using git:
+" git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+" ~/.fzf/install
+Plug '~/.fzf'
+" Initialize plugin system
+call plug#end()
 
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
