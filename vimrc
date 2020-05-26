@@ -24,7 +24,7 @@ set incsearch                     " Highlight matches as you type.
 set hlsearch                      " Highlight matches.
 
 " Or use vividchalk
-colorscheme topfunky-light
+"colorscheme topfunky-light
 
 " Tab mappings.
 nnoremap tt :tabnew<cr>
