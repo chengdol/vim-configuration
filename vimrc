@@ -25,6 +25,7 @@ Plug '~/.fzf'
 " Initialize plugin system
 call plug#end()
 
+set scrolloff=3                   " few lines of breathing room: zt, zz, zb
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
@@ -40,6 +41,11 @@ set smartcase                     " But case-sensitive if expression contains a 
 
 set incsearch                     " Highlight matches as you type.
 set hlsearch                      " Highlight matches.
+
+" shift with tab
+set tabstop=2                    " Global tab width.
+set shiftwidth=2                 " And again, related.
+set expandtab                    " Use spaces instead of tabs
 
 " Or use vividchalk
 "colorscheme topfunky-light
