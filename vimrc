@@ -27,6 +27,16 @@ call plug#end()
 
 let NERDTreeShowHidden=1          " Show hidden files in NERDTree
 
+" Controversial...swap colon and semicolon for easier commands
+" previous shift+;, now only ;
+"nnoremap ; :
+"nnoremap : ;
+
+" highlight the current line the cursor is on
+set cursorline
+" highlight the current column the cursor is on
+"set cursorcolumn
+
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
@@ -44,6 +54,7 @@ set smartcase                     " But case-sensitive if expression contains a 
 "set ruler                         " Show cursor position.
 
 set wrap                          " Turn on line wrapping. enable by default
+"set nowrap
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
 set incsearch                     " Highlight matches as you type.
