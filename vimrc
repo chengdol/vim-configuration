@@ -23,6 +23,10 @@ Plug 'preservim/nerdtree'
 " ~/.fzf/install
 Plug '~/.fzf'
 " Initialize plugin system
+
+" gradle file plugin
+" use :PlugInstall to install
+Plug 'https://github.com/tfnico/vim-gradle.git'
 call plug#end()
 
 let NERDTreeShowHidden=1          " Show hidden files in NERDTree
