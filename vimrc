@@ -59,6 +59,14 @@ set shiftwidth=2                 " And again, related.
 set expandtab                    " Use spaces instead of tabs
 "set softtabstop=2               " keep default tab stop, only change in buffer            
 
+" extremely useful to edit yaml file
+set autoindent                   " always set autoindenting on
+set copyindent                   " copy the previous indentation on autoindenting
+
+set history=1000               " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
+
+
 " Indent code block mapping
 vmap > >gv
 vmap < <gv
@@ -81,13 +89,21 @@ set foldlevel=9999
 " Or use vividchalk
 "colorscheme topfunky-light
 
-" Tab mappings.
-nnoremap tt :tabnew<cr>
-nnoremap te :tabedit
-nnoremap tc :tabclose<cr>
-nnoremap to :tabonly<cr>
-nnoremap tn :tabnext<cr>
-nnoremap tp :tabprevious<cr>
-nnoremap tf :tabfirst<cr>
-nnoremap tl :tablast<cr>
-nnoremap tm :tabmove
+" Tab mappings
+" The default leader key is \
+let mapleader=","                       " remap leader key to ,
+" invoke for example: ,tt
+map <leader>tt :tabnew<cr>
+map <leader>te :tabedit
+map <leader>tc :tabclose<cr>
+map <leader>to :tabonly<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprevious<cr>
+map <leader>tf :tabfirst<cr>
+map <leader>tl :tablast<cr>
+map <leader>tm :tabmove
+
+" Quickly edit/reload the vimrc file
+" $MYVIMRC is good
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
