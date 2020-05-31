@@ -55,7 +55,7 @@ set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
 "set number                        " Show line numbers.
-"set ruler                         " Show cursor position.
+set ruler                         " Show cursor position.
 
 set wrap                          " Turn on line wrapping. enable by default
 "set nowrap
