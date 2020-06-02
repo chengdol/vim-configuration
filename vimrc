@@ -122,3 +122,7 @@ map <leader>tm :tabmove
 " $MYVIMRC is good
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" set Jenkins file syntax highlighting as groovy
+" Jenkinsfile* means the file prefix as Jenkinsfile
+au BufNewFile,BufRead Jenkinsfile* setf groovy
