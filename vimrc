@@ -27,6 +27,10 @@ Plug '~/.fzf'
 " gradle file plugin
 " use :PlugInstall to install
 Plug 'https://github.com/tfnico/vim-gradle.git'
+
+" vim-bracketed-paste plugin
+" enables transparent pasting into vim, no more :set paste
+Plug 'https://github.com/ConradIrwin/vim-bracketed-paste.git'
 call plug#end()
 
 let NERDTreeShowHidden=1          " Show hidden files in NERDTree
