@@ -31,6 +31,10 @@ Plug 'https://github.com/tfnico/vim-gradle.git'
 " vim-bracketed-paste plugin
 " enables transparent pasting into vim, no more :set paste
 Plug 'https://github.com/ConradIrwin/vim-bracketed-paste.git'
+
+" golang plugin, required vim 8.0.1453+
+" https://github.com/fatih/vim-go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 let NERDTreeShowHidden=1          " Show hidden files in NERDTree
