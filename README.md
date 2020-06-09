@@ -11,6 +11,8 @@ It contains:
 To manage vim plugins I use `vim-plug`:
 https://github.com/junegunn/vim-plug
 
+`golang` plugin, required vim 8.0.1453+, it is commented out by default. 
+
 ### Usage
 Run following commands in your terminal, it will backup your old `.vimrc` file then git clone and put new vimrc file in place.
 ```bash
