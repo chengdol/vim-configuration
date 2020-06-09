@@ -34,7 +34,7 @@ Plug 'https://github.com/ConradIrwin/vim-bracketed-paste.git'
 
 " golang plugin, required vim 8.0.1453+
 " https://github.com/fatih/vim-go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 let NERDTreeShowHidden=1          " Show hidden files in NERDTree
@@ -97,8 +97,9 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 
 " auto complete
-imap <Tab> <C-N>
-imap <S-Tab> <C-P>
+" get conflict with indent in insert mode
+"imap <Tab> <C-N>
+"imap <S-Tab> <C-P>
 
 " fold
 set foldmethod=indent
