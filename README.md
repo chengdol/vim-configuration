@@ -15,10 +15,12 @@ https://github.com/junegunn/vim-plug
 
 ### Usage
 Run following commands in your terminal, it will backup your old `.vimrc` file then git clone and put new vimrc file in place.
+Make sure vim and git are installed in your machine.
 ```bash
-[[ -f ~/.vimrc ]] && mv -f ~/.vimrc ~/.vimrc.kbp
-rm -rf /tmp/vim-configuration && git clone https://github.com/chengdol/vim-configuration.git /tmp/vim-configuration
-cp -rf /tmp/vim-configuration/vimrc ~/.vimrc
+[[ -f ~/.vimrc ]] && /bin/mv -f ~/.vimrc ~/.vimrc.kbp
+/bin/rm -rf /tmp/vim-configuration && git clone https://github.com/chengdol/vim-configuration.git /tmp/vim-configuration
+/bin/cp -rf /tmp/vim-configuration/vimrc ~/.vimrc
+/bin/rm -rf /tmp/vim-configuration/vimrc
 ```
 
 First time launching vim please run below vim command to install plugin locally:
