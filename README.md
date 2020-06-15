@@ -18,9 +18,9 @@ Run following commands in your terminal, it will backup your old `.vimrc` file t
 Make sure vim and git are installed in your machine.
 ```bash
 [[ -f ~/.vimrc ]] && /bin/mv -f ~/.vimrc ~/.vimrc.kbp
-/bin/rm -rf /tmp/vim-configuration && git clone https://github.com/chengdol/vim-configuration.git /tmp/vim-configuration
-/bin/cp -rf /tmp/vim-configuration/vimrc ~/.vimrc
-/bin/rm -rf /tmp/vim-configuration/vimrc
+/bin/rm -rf ~/vim-configuration && git clone https://github.com/chengdol/vim-configuration.git ~/vim-configuration
+/bin/cp -rf ~/vim-configuration/vimrc ~/.vimrc
+/bin/rm -rf ~/vim-configuration
 ```
 
 First time launching vim please run below vim command to install plugin locally:
