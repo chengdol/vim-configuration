@@ -21,6 +21,8 @@ Make sure vim and git are installed in your machine.
 /bin/rm -rf ~/vim-configuration && git clone https://github.com/chengdol/vim-configuration.git ~/vim-configuration
 /bin/cp -rf ~/vim-configuration/vimrc ~/.vimrc
 /bin/rm -rf ~/vim-configuration
+echo "export OC_EDITOR=vim" >> ~/.bashrc
+echo "export KUBE_EDITOR=vim" >> ~/.bashrc
 ```
 
 First time launching vim please run below vim command to install plugin locally:
