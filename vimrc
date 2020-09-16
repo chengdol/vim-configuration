@@ -47,7 +47,7 @@ let NERDTreeShowHidden=1          " Show hidden files in NERDTree
 " highlight the current line the cursor is on
 set cursorline
 " highlight the current column the cursor is on
-"set cursorcolumn
+set cursorcolumn
 
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
@@ -101,7 +101,7 @@ vmap <S-Tab> <gv
 "imap <Tab> <C-N>
 "imap <S-Tab> <C-P>
 
-" fold
+" fold: indent(yaml) or syntax(json)
 set foldmethod=indent
 " make it really high, so they're not displayed by default
 set foldlevel=9999
